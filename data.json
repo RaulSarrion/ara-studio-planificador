@@ -1,0 +1,305 @@
+{
+  "version": 1,
+  "savedAt": "2026-06-15T11:04:51.977Z",
+  "viewYear": 2026,
+  "viewMonth": 5,
+  "nextId": 108,
+  "tasks": [
+    {
+      "id": "t1",
+      "text": "Logo (colores, tipografía, formatos)",
+      "p": 1,
+      "date": "2026-06-14",
+      "status": "done",
+      "owner": "ambos"
+    },
+    {
+      "id": "t2",
+      "text": "Alta autónomo",
+      "p": 1,
+      "date": "2026-06-14",
+      "status": "done",
+      "owner": "ambos"
+    },
+    {
+      "id": "t3",
+      "text": "Cuenta banco",
+      "p": 1,
+      "date": "2026-06-19",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "t4",
+      "text": "Cartel puertas",
+      "p": 1,
+      "date": "2026-06-14",
+      "status": "done",
+      "owner": "carlota"
+    },
+    {
+      "id": "t5",
+      "text": "Agenda albañil",
+      "p": 1,
+      "date": "2026-06-16",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "t6",
+      "text": "Crédito",
+      "p": 1,
+      "date": "2026-06-19",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "t7",
+      "text": "Contrato seguro",
+      "p": 2,
+      "date": "2026-07-23",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "t8",
+      "text": "Contrato alarma",
+      "p": 2,
+      "date": "2026-07-23",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "t9",
+      "text": "Comprar dominio web",
+      "p": 2,
+      "date": "2026-06-20",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "t10",
+      "text": "Actualizar planos",
+      "p": 2,
+      "date": "2026-06-15",
+      "status": "none",
+      "owner": "carlota"
+    },
+    {
+      "id": "t11",
+      "text": "Llamar arquitecta",
+      "p": 2,
+      "date": "2026-06-15",
+      "status": "done",
+      "owner": "carlota"
+    },
+    {
+      "id": "t12",
+      "text": "Diseño web",
+      "p": 3,
+      "date": "2026-06-16",
+      "status": "none",
+      "owner": "carlota"
+    },
+    {
+      "id": "t13",
+      "text": "Puerta cristal",
+      "p": 3,
+      "date": null,
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "t14",
+      "text": "Abrir redes sociales",
+      "p": 3,
+      "date": "2026-06-15",
+      "status": "progress",
+      "owner": "carlota"
+    },
+    {
+      "id": "t15",
+      "text": "Profesores",
+      "p": 3,
+      "date": "2026-07-06",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "t16",
+      "text": "Proveedores máquinas",
+      "p": 3,
+      "date": "2026-06-22",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "t17",
+      "text": "Cartelería",
+      "p": 3,
+      "date": "2026-06-23",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "t18",
+      "text": "Bonos y precios (fundadores)",
+      "p": 3,
+      "date": "2026-06-14",
+      "status": "done",
+      "owner": "ambos"
+    },
+    {
+      "id": "t19",
+      "text": "Valorar suelos",
+      "p": 3,
+      "date": "2026-06-15",
+      "status": "none",
+      "owner": "ambos"
+    },
+    {
+      "id": "t20",
+      "text": "Vinilos cristales y máquinas",
+      "p": 3,
+      "date": "2026-06-25",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "t21",
+      "text": "Recepción",
+      "p": 3,
+      "date": "2026-06-21",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "t22",
+      "text": "Comprar iPad",
+      "p": 4,
+      "date": "2026-06-23",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "t23",
+      "text": "Máquina café",
+      "p": 4,
+      "date": "2026-07-11",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "t24",
+      "text": "Recipiente agua",
+      "p": 4,
+      "date": "2026-07-11",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "t25",
+      "text": "Decidir horarios",
+      "p": 4,
+      "date": "2026-06-21",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "t26",
+      "text": "Pack bienvenida fundadores",
+      "p": 4,
+      "date": "2026-07-06",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "t27",
+      "text": "Mesa y sillas",
+      "p": 4,
+      "date": "2026-07-11",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "t28",
+      "text": "Cómoda",
+      "p": 4,
+      "date": "2026-07-11",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "t29",
+      "text": "Elegir bancos y lavamanos",
+      "p": 4,
+      "date": "2026-06-22",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "u100",
+      "text": "Seguro para obra o lo tiene el albañil?",
+      "p": 1,
+      "date": "2026-06-16",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "u101",
+      "text": "Analizar Software Gestión",
+      "p": 4,
+      "date": null,
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "u102",
+      "text": "Analizar App studio",
+      "p": 4,
+      "date": null,
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "u103",
+      "text": "Planificación Económica",
+      "p": 1,
+      "date": "2026-06-15",
+      "status": "none",
+      "owner": "raul"
+    },
+    {
+      "id": "u104",
+      "text": "Escanear Contrato Arrendamiento Local",
+      "p": 4,
+      "date": null,
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "u105",
+      "text": "Alta en RETA - Cuando abramos",
+      "p": 4,
+      "date": "2026-08-15",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "u106",
+      "text": "Modificación 036 - Cuando abramos",
+      "p": 4,
+      "date": "2026-08-15",
+      "status": "none",
+      "owner": null
+    },
+    {
+      "id": "u107",
+      "text": "Recepción Planos Arquitecta",
+      "p": 3,
+      "date": "2026-06-24",
+      "status": "none",
+      "owner": null
+    }
+  ]
+}
