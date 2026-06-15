@@ -66,6 +66,32 @@ h1{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:#
 .info-banner{background:#E6F1FB;border:0.5px solid #B5D4F4;border-radius:8px;padding:10px 14px;margin-bottom:1rem;font-size:12px;color:#185FA5;display:flex;align-items:center;gap:10px}
 .info-banner strong{font-weight:500}
 
+/* ---- MOBILE WEEK VIEW ---- */
+@media (max-width: 600px) {
+  body{padding:0.75rem}
+  h1{font-size:18px}
+  .btn{font-size:12px;padding:5px 10px}
+  .header-right{gap:6px}
+  .info-banner{display:none}
+  .legend{display:none}
+  .cal-grid{display:none}
+  .week-view{display:block}
+  .month-nav{display:none}
+}
+@media (min-width:601px){
+  .week-view{display:none}
+}
+.week-view{margin-bottom:1rem}
+.week-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px}
+.week-label{font-size:14px;font-weight:500;text-align:center;flex:1;color:#2C2C2A}
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.week-day{min-height:80px;border:0.5px solid #D3D1C7;border-radius:6px;padding:4px;background:white;position:relative}
+.week-day.today{border:1.5px solid #1D9E75}
+.week-day.drag-over{background:#F1EFE8;border:1.5px dashed #1D9E75}
+.week-day-name{font-size:9px;color:#888780;font-weight:500;text-align:center;margin-bottom:1px}
+.week-day-num{font-size:11px;color:#888780;text-align:center;margin-bottom:3px}
+.week-day.today .week-day-num{color:#0F6E56;font-weight:600}
+
 /* MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:100;align-items:center;justify-content:center}
 .modal-overlay.open{display:flex}
@@ -148,6 +174,16 @@ h1{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:#
   <div class="cal-day-name">Dom</div>
 </div>
 
+<!-- Mobile week view -->
+<div class="week-view" id="week-view">
+  <div class="week-nav">
+    <button class="nav-btn" onclick="prevWeek()">‹</button>
+    <span class="week-label" id="week-label"></span>
+    <button class="nav-btn" onclick="nextWeek()">›</button>
+  </div>
+  <div class="week-grid" id="week-grid"></div>
+</div>
+
 <div class="unscheduled-panel">
   <h3>📋 Tareas sin fecha — arrastra al calendario</h3>
   <div class="unscheduled-tasks" id="unscheduled"
@@ -190,10 +226,6 @@ h1{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:#
 <div class="toast" id="toast"></div>
 
 <script>
-const TODAY = new Date();
-const LIMIT = new Date(2026,7,31);
-const OWNER_LABEL = {raul:'R', carlota:'C', ambos:'A'};
-
 const DEFAULT_TASKS = [
   {id:'t1',text:'Logo (colores, tipografía, formatos)',p:1,date:'2026-06-14',status:'done',owner:'ambos'},
   {id:'t2',text:'Alta autónomo',p:1,date:'2026-06-14',status:'done',owner:'ambos'},
@@ -382,6 +414,7 @@ async function init(){
     showStatus('✓ Datos cargados desde GitHub');
   }
   renderMonth();
+  renderWeek();
 }
 
 /* ---- EXPORT / IMPORT ---- */
@@ -492,6 +525,7 @@ function saveModal(){
   closeModal();
   scheduleSave();
   renderMonth();
+  renderWeek();
 }
 
 function deleteTask(){
@@ -500,9 +534,77 @@ function deleteTask(){
   closeModal();
   scheduleSave();
   renderMonth();
+  renderWeek();
 }
 
-/* ---- CALENDAR ---- */
+const TODAY = new Date();
+const LIMIT = new Date(2026,7,31);
+const OWNER_LABEL = {raul:'R', carlota:'C', ambos:'A'};
+const DAY_NAMES = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+
+// Week offset from current week (0 = this week)
+let weekOffset = 0;
+
+function getWeekStart(offset){
+  const d = new Date(TODAY);
+  // Go to Monday of current week
+  const dow = d.getDay(); // 0=Sun
+  const diffToMon = (dow === 0) ? -6 : 1 - dow;
+  d.setDate(d.getDate() + diffToMon + offset * 7);
+  d.setHours(0,0,0,0);
+  return d;
+}
+
+function prevWeek(){ weekOffset--; renderWeek(); }
+function nextWeek(){ weekOffset++; renderWeek(); }
+
+function renderWeek(){
+  const grid = document.getElementById('week-grid');
+  const label = document.getElementById('week-label');
+  grid.innerHTML = '';
+
+  const weekStart = getWeekStart(weekOffset);
+  const weekEnd = new Date(weekStart); weekEnd.setDate(weekEnd.getDate()+6);
+
+  const months = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  const s = weekStart, e = weekEnd;
+  if(s.getMonth()===e.getMonth()){
+    label.textContent = `${s.getDate()}–${e.getDate()} ${months[s.getMonth()]} ${s.getFullYear()}`;
+  } else {
+    label.textContent = `${s.getDate()} ${months[s.getMonth()]} – ${e.getDate()} ${months[e.getMonth()]}`;
+  }
+
+  const tasksByDate = {};
+  state.tasks.forEach(t=>{ if(t.date){ if(!tasksByDate[t.date]) tasksByDate[t.date]=[]; tasksByDate[t.date].push(t); }});
+
+  for(let i=0;i<7;i++){
+    const day = new Date(weekStart); day.setDate(day.getDate()+i);
+    const key = dateKey(day.getFullYear(), day.getMonth(), day.getDate());
+    const isToday = day.toDateString()===TODAY.toDateString();
+    const todayStart = new Date(TODAY); todayStart.setHours(0,0,0,0);
+    const inRange = day >= todayStart && day <= LIMIT;
+
+    const cell = document.createElement('div');
+    cell.className = 'week-day' + (isToday?' today':'') + (!inRange&&!isToday?' disabled':'');
+
+    const dname = document.createElement('div'); dname.className='week-day-name'; dname.textContent=DAY_NAMES[i];
+    const dnum = document.createElement('div'); dnum.className='week-day-num'; dnum.textContent=day.getDate();
+    cell.appendChild(dname);
+    cell.appendChild(dnum);
+
+    if(inRange || isToday){
+      cell.ondragover=e=>onDragOver(e,cell);
+      cell.ondragleave=()=>onDragLeave(cell);
+      cell.ondrop=e=>onDrop(e,key);
+    }
+
+    if(tasksByDate[key]){
+      tasksByDate[key].sort((a,b)=>a.p-b.p).forEach(t=>cell.appendChild(makeChip(t)));
+    }
+    grid.appendChild(cell);
+  }
+}
+
 function renderMonth(){
   const {viewYear:y,viewMonth:m}=state;
   const months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
@@ -586,6 +688,7 @@ function onDrop(e,key){
   dragId=null;
   scheduleSave();
   renderMonth();
+  renderWeek();
 }
 
 function renderUnscheduled(){
@@ -672,6 +775,7 @@ function startTouchDrag(e,task,chip){
       }
       scheduleSave();
       renderMonth();
+      renderWeek();
     }
     touchDragId=null;
     lastTouchTarget=null;
