@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARA Studio Pilates — Planificación</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Cormorant+Garamond:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#FAF9F7;color:#2C2C2A;min-height:100vh;padding:1.5rem}
+h1{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:#2C2C2A;letter-spacing:0.01em}
+.subtitle{font-size:13px;color:#888780;margin-top:2px}
+.header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:12px}
+.header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.save-status{font-size:12px;color:#888780}
+.btn{background:none;border:0.5px solid #B4B2A9;border-radius:8px;padding:5px 14px;cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;color:#2C2C2A;display:inline-flex;align-items:center;gap:6px;transition:background 0.15s;white-space:nowrap}
+.btn:hover{background:#F1EFE8}
+.btn-add{background:#2C2C2A;color:white;border-color:#2C2C2A;font-weight:500}
+.btn-add:hover{background:#444441;border-color:#444441;color:white}
+.btn-export{border-color:#1D9E75;color:#0F6E56}
+.btn-export:hover{background:#E1F5EE}
+.btn-import{border-color:#185FA5;color:#185FA5}
+.btn-import:hover{background:#E6F1FB}
+.month-nav{display:flex;align-items:center;gap:8px}
+.month-label{font-size:15px;font-weight:500;min-width:130px;text-align:center}
+.nav-btn{background:none;border:0.5px solid #B4B2A9;border-radius:8px;padding:4px 10px;cursor:pointer;font-size:14px;font-family:'DM Sans',sans-serif;color:#2C2C2A}
+.nav-btn:hover{background:#F1EFE8}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:1rem;align-items:center;font-size:11px;color:#888780}
+.legend-item{display:flex;align-items:center;gap:5px}
+.legend-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.legend-bar{width:22px;height:3px;border-radius:2px;flex-shrink:0}
+.legend-sep{width:1px;height:14px;background:#D3D1C7}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:1rem}
+.cal-day-name{text-align:center;font-size:11px;color:#888780;padding:5px 0;font-weight:500}
+.cal-day{min-height:90px;border:0.5px solid #D3D1C7;border-radius:6px;padding:5px;background:white;position:relative}
+.cal-day.other-month{background:#FAF9F7;opacity:0.4}
+.cal-day.today{border:1.5px solid #1D9E75}
+.cal-day.drag-over{background:#F1EFE8;border:1.5px dashed #1D9E75}
+.cal-day.disabled{opacity:0.3;pointer-events:none}
+.day-num{font-size:11px;color:#888780;margin-bottom:3px}
+.today .day-num{color:#0F6E56;font-weight:500}
+.task-chip{font-size:10px;padding:3px 5px;border-radius:4px;margin-bottom:2px;cursor:grab;user-select:none;line-height:1.4;position:relative}
+.task-chip:active{cursor:grabbing}
+.task-chip.dragging{opacity:0.35}
+.chip-top{display:flex;align-items:center;gap:3px;overflow:hidden}
+.chip-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.chip-owner{font-size:9px;opacity:0.85;white-space:nowrap;flex-shrink:0;font-weight:500}
+.chip-status-bar{height:2px;border-radius:1px;margin-top:2px;width:100%}
+.p1{background:#B5D4F4;color:#0C447C}
+.p2{background:#C0DD97;color:#27500A}
+.p3{background:#F4C0D1;color:#4B1528}
+.p4{background:#D3C4A9;color:#4A3520}
+.status-none .chip-status-bar{background:rgba(0,0,0,0.12)}
+.status-progress .chip-status-bar{background:#EF9F27}
+.status-done .chip-status-bar{background:#1D9E75}
+.status-done .chip-text{text-decoration:line-through;opacity:0.55}
+.unscheduled-panel{border:0.5px solid #D3D1C7;border-radius:12px;padding:1rem;background:#F1EFE8;margin-bottom:1.5rem}
+.unscheduled-panel h3{font-size:13px;font-weight:500;color:#888780;margin-bottom:8px}
+.unscheduled-tasks{display:flex;flex-wrap:wrap;gap:6px;min-height:36px;border-radius:6px;padding:2px;transition:background 0.15s}
+.unscheduled-tasks.drag-over{background:white;outline:1.5px dashed #1D9E75}
+
+/* info banner */
+.info-banner{background:#E6F1FB;border:0.5px solid #B5D4F4;border-radius:8px;padding:10px 14px;margin-bottom:1rem;font-size:12px;color:#185FA5;display:flex;align-items:center;gap:10px}
+.info-banner strong{font-weight:500}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:white;border:0.5px solid #B4B2A9;border-radius:12px;padding:1.5rem;width:90%;max-width:340px;position:relative;max-height:90vh;overflow-y:auto}
+.modal-close{position:absolute;top:10px;right:12px;background:none;border:none;font-size:20px;cursor:pointer;color:#888780;line-height:1;padding:2px 6px}
+.modal-close:hover{color:#2C2C2A}
+.modal h3{font-size:14px;font-weight:500;color:#2C2C2A;margin-bottom:1rem;padding-right:24px;line-height:1.4}
+.modal-label{font-size:11px;color:#888780;margin-bottom:5px;margin-top:14px;font-weight:500;text-transform:uppercase;letter-spacing:0.04em}
+.modal-label:first-of-type{margin-top:0}
+.modal input[type=text]{width:100%;padding:8px 10px;border:0.5px solid #B4B2A9;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:13px;color:#2C2C2A;background:white;outline:none}
+.modal input[type=text]:focus{border-color:#1D9E75;box-shadow:0 0 0 2px rgba(29,158,117,0.12)}
+.seg-group{display:flex;border:0.5px solid #B4B2A9;border-radius:8px;overflow:hidden}
+.seg-btn{flex:1;padding:6px 4px;font-size:12px;cursor:pointer;background:none;border:none;border-right:0.5px solid #D3D1C7;color:#888780;font-family:'DM Sans',sans-serif;transition:background 0.12s;white-space:nowrap}
+.seg-btn:last-child{border-right:none}
+.seg-btn.active{background:#F1EFE8;color:#2C2C2A;font-weight:500}
+.seg-btn:hover:not(.active){background:#FAF9F7}
+.seg-btn.pact-1.active{background:#B5D4F4;color:#0C447C}
+.seg-btn.pact-2.active{background:#C0DD97;color:#27500A}
+.seg-btn.pact-3.active{background:#F4C0D1;color:#4B1528}
+.seg-btn.pact-4.active{background:#D3C4A9;color:#4A3520}
+.modal-actions{display:flex;gap:8px;margin-top:1.25rem}
+.modal-actions button{flex:1;padding:7px;border-radius:8px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif}
+.btn-cancel2{background:none;border:0.5px solid #B4B2A9;color:#888780}
+.btn-cancel2:hover{background:#F1EFE8}
+.btn-apply{background:#1D9E75;border:none;color:white;font-weight:500}
+.btn-apply:hover{background:#0F6E56}
+.btn-delete{background:none;border:0.5px solid #F4C0D1;color:#99355A;padding:7px 10px;flex:0}
+.btn-delete:hover{background:#FBEAF0}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#2C2C2A;color:white;padding:9px 20px;border-radius:8px;font-size:13px;opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:200;white-space:nowrap}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>ARA Studio Pilates</h1>
+    <div class="subtitle">Planificación junio — agosto 2026</div>
+  </div>
+  <div class="header-right">
+    <span class="save-status" id="save-status"></span>
+    <button class="btn btn-add" onclick="openAddModal()">+ Nueva tarea</button>
+    <button class="btn btn-export" onclick="exportJSON()" title="Descarga un .json con todos tus datos">⬇ Exportar</button>
+    <button class="btn btn-import" onclick="document.getElementById('import-input').click()" title="Carga un .json guardado anteriormente">⬆ Importar</button>
+    <input type="file" id="import-input" accept=".json" style="display:none" onchange="importJSON(event)">
+    <div class="month-nav">
+      <button class="nav-btn" onclick="prevMonth()">‹</button>
+      <span class="month-label" id="month-label"></span>
+      <button class="nav-btn" onclick="nextMonth()">›</button>
+    </div>
+  </div>
+</div>
+
+<div class="info-banner">
+  ☁️ <span><strong>Guardado en GitHub.</strong> Los cambios se sincronizan automáticamente. Accede desde cualquier navegador o dispositivo — Carlota también.</span>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#B5D4F4"></div> Urgente</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#C0DD97"></div> Rápido</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#F4C0D1"></div> Importante</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#D3C4A9"></div> No hay prisa</div>
+  <div class="legend-sep"></div>
+  <div class="legend-item"><div class="legend-bar" style="background:rgba(0,0,0,0.15)"></div> Sin empezar</div>
+  <div class="legend-item"><div class="legend-bar" style="background:#EF9F27"></div> En curso</div>
+  <div class="legend-item"><div class="legend-bar" style="background:#1D9E75"></div> Finalizada</div>
+  <div class="legend-sep"></div>
+  <div class="legend-item">R = Raúl · C = Carlota · A = Ambos</div>
+  <div class="legend-sep"></div>
+  <div class="legend-item">Clic → editar · Arrastrar → mover</div>
+</div>
+
+<div class="cal-grid" id="cal-grid">
+  <div class="cal-day-name">Lun</div>
+  <div class="cal-day-name">Mar</div>
+  <div class="cal-day-name">Mié</div>
+  <div class="cal-day-name">Jue</div>
+  <div class="cal-day-name">Vie</div>
+  <div class="cal-day-name">Sáb</div>
+  <div class="cal-day-name">Dom</div>
+</div>
+
+<div class="unscheduled-panel">
+  <h3>📋 Tareas sin fecha — arrastra al calendario</h3>
+  <div class="unscheduled-tasks" id="unscheduled"
+    ondragover="onDragOver(event,this)"
+    ondragleave="onDragLeave(this)"
+    ondrop="onDrop(event,'unscheduled')"></div>
+</div>
+
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <h3 id="modal-title"></h3>
+    <div id="modal-name-row" style="display:none">
+      <div class="modal-label">Nombre de la tarea</div>
+      <input type="text" id="modal-name-input" placeholder="Escribe la tarea..." maxlength="80">
+    </div>
+    <div class="modal-label">Prioridad</div>
+    <div class="seg-group">
+      <button class="seg-btn pact-1" id="p-1" onclick="setPriority(1)">🔵 Urgente</button>
+      <button class="seg-btn pact-2" id="p-2" onclick="setPriority(2)">🟢 Rápido</button>
+      <button class="seg-btn pact-3" id="p-3" onclick="setPriority(3)">🩷 Importante</button>
+      <button class="seg-btn pact-4" id="p-4" onclick="setPriority(4)">🟤 Sin prisa</button>
+    </div>
+    <div class="modal-label">Estado</div>
+    <div class="seg-group">
+      <button class="seg-btn" id="s-none" onclick="setStatus('none')">Sin empezar</button>
+      <button class="seg-btn" id="s-progress" onclick="setStatus('progress')">En curso</button>
+      <button class="seg-btn" id="s-done" onclick="setStatus('done')">Finalizada</button>
+    </div>
+    <div class="modal-label">Responsable</div>
+    <div class="seg-group">
+      <button class="seg-btn" id="o-raul" onclick="setOwner('raul')">Raúl</button>
+      <button class="seg-btn" id="o-carlota" onclick="setOwner('carlota')">Carlota</button>
+      <button class="seg-btn" id="o-ambos" onclick="setOwner('ambos')">Ambos</button>
+    </div>
+    <div class="modal-actions" id="modal-actions"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const TODAY = new Date();
+const LIMIT = new Date(2026,7,31);
+const OWNER_LABEL = {raul:'R', carlota:'C', ambos:'A'};
+
+const DEFAULT_TASKS = [
+  {id:'t1',text:'Logo (colores, tipografía, formatos)',p:1,date:'2026-06-14',status:'done',owner:'ambos'},
+  {id:'t2',text:'Alta autónomo',p:1,date:'2026-06-14',status:'done',owner:'ambos'},
+  {id:'t3',text:'Cuenta banco',p:1,date:'2026-06-19',status:'none',owner:null},
+  {id:'t4',text:'Cartel puertas',p:1,date:'2026-06-14',status:'done',owner:'carlota'},
+  {id:'t5',text:'Agenda albañil',p:1,date:'2026-06-16',status:'none',owner:null},
+  {id:'t6',text:'Crédito',p:1,date:'2026-06-19',status:'none',owner:null},
+  {id:'t7',text:'Contrato seguro',p:2,date:'2026-07-23',status:'none',owner:null},
+  {id:'t8',text:'Contrato alarma',p:2,date:'2026-07-23',status:'none',owner:null},
+  {id:'t9',text:'Comprar dominio web',p:2,date:'2026-06-20',status:'none',owner:null},
+  {id:'t10',text:'Actualizar planos',p:2,date:'2026-06-15',status:'none',owner:'carlota'},
+  {id:'t11',text:'Llamar arquitecta',p:2,date:'2026-06-15',status:'done',owner:'carlota'},
+  {id:'t12',text:'Diseño web',p:3,date:'2026-06-16',status:'none',owner:'carlota'},
+  {id:'t13',text:'Puerta cristal',p:3,date:null,status:'none',owner:null},
+  {id:'t14',text:'Abrir redes sociales',p:3,date:'2026-06-15',status:'progress',owner:'carlota'},
+  {id:'t15',text:'Profesores',p:3,date:'2026-07-06',status:'none',owner:null},
+  {id:'t16',text:'Proveedores máquinas',p:3,date:'2026-06-22',status:'none',owner:null},
+  {id:'t17',text:'Cartelería',p:3,date:'2026-06-23',status:'none',owner:null},
+  {id:'t18',text:'Bonos y precios (fundadores)',p:3,date:'2026-06-14',status:'done',owner:'ambos'},
+  {id:'t19',text:'Valorar suelos',p:3,date:'2026-06-15',status:'none',owner:'ambos'},
+  {id:'t20',text:'Vinilos cristales y máquinas',p:3,date:'2026-06-25',status:'none',owner:null},
+  {id:'t21',text:'Recepción',p:3,date:'2026-06-21',status:'none',owner:null},
+  {id:'t22',text:'Comprar iPad',p:4,date:'2026-06-23',status:'none',owner:null},
+  {id:'t23',text:'Máquina café',p:4,date:'2026-07-11',status:'none',owner:null},
+  {id:'t24',text:'Recipiente agua',p:4,date:'2026-07-11',status:'none',owner:null},
+  {id:'t25',text:'Decidir horarios',p:4,date:'2026-06-21',status:'none',owner:null},
+  {id:'t26',text:'Pack bienvenida fundadores',p:4,date:'2026-07-06',status:'none',owner:null},
+  {id:'t27',text:'Mesa y sillas',p:4,date:'2026-07-11',status:'none',owner:null},
+  {id:'t28',text:'Cómoda',p:4,date:'2026-07-11',status:'none',owner:null},
+  {id:'t29',text:'Elegir bancos y lavamanos',p:4,date:'2026-06-22',status:'none',owner:null},
+  {id:'u100',text:'Seguro para obra o lo tiene el albañil?',p:1,date:'2026-06-16',status:'none',owner:null},
+  {id:'u101',text:'Analizar Software Gestión',p:4,date:null,status:'none',owner:null},
+  {id:'u102',text:'Analizar App studio',p:4,date:null,status:'none',owner:null},
+  {id:'u103',text:'Planificación Económica',p:1,date:'2026-06-15',status:'none',owner:'raul'},
+  {id:'u104',text:'Escanear Contrato Arrendamiento Local',p:4,date:null,status:'none',owner:null},
+  {id:'u105',text:'Alta en RETA - Cuando abramos',p:4,date:'2026-08-15',status:'none',owner:null},
+  {id:'u106',text:'Modificación 036 - Cuando abramos',p:4,date:'2026-08-15',status:'none',owner:null},
+  {id:'u107',text:'Recepción Planos Arquitecta',p:3,date:'2026-06-24',status:'none',owner:null},
+];
+
+const state = {tasks:[], viewYear:2026, viewMonth:5};
+let dragId=null, editId=null, isAddMode=false;
+let modalP=1, modalStatus='none', modalOwner=null;
+let nextId=108;
+
+/* ---- GITHUB PERSISTENCE ---- */
+const GH_OWNER = 'RaulSarrion';
+const GH_REPO  = 'ara-studio-planificador';
+const GH_FILE  = 'data.json';
+const GH_API   = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_FILE}`;
+const TOKEN_KEY = 'ara_gh_token';
+
+let ghFileSha = null; // needed for updates
+let ghToken = null;
+let saveTimer = null;
+
+function getToken(){
+  if(ghToken) return ghToken;
+  ghToken = localStorage.getItem(TOKEN_KEY);
+  return ghToken;
+}
+
+function promptToken(){
+  const t = prompt('Introduce tu token de GitHub (ghp_...):\n\nSolo se pide una vez y se guarda en este navegador.');
+  if(t && t.startsWith('ghp_')){
+    localStorage.setItem(TOKEN_KEY, t);
+    ghToken = t;
+    return t;
+  }
+  showToast('Token no válido');
+  return null;
+}
+
+async function loadFromGitHub(){
+  const token = getToken() || promptToken();
+  if(!token) return false;
+  showStatus('⏳ Cargando datos...');
+  try {
+    const res = await fetch(GH_API, {
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
+    });
+    if(res.status === 404){
+      // file doesn't exist yet — use defaults and create it
+      return false;
+    }
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await res.json();
+    ghFileSha = json.sha;
+    const decoded = JSON.parse(atob(json.content.replace(/\n/g,'')));
+    state.tasks = decoded.tasks;
+    state.viewYear = decoded.viewYear || 2026;
+    state.viewMonth = decoded.viewMonth || 5;
+    nextId = decoded.nextId || 108;
+    return true;
+  } catch(e) {
+    showStatus('⚠ Error al conectar con GitHub: ' + e.message);
+    return false;
+  }
+}
+
+async function saveToGitHub(){
+  const token = getToken();
+  if(!token){ showStatus('⚠ Sin token — no se puede guardar'); return; }
+  showStatus('⏳ Guardando...');
+  const data = {
+    version: 1,
+    savedAt: new Date().toISOString(),
+    viewYear: state.viewYear,
+    viewMonth: state.viewMonth,
+    nextId,
+    tasks: state.tasks
+  };
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+  const body = { message: 'update: ' + new Date().toISOString(), content };
+  if(ghFileSha) body.sha = ghFileSha;
+  try {
+    const res = await fetch(GH_API, {
+      method: 'PUT',
+      headers: {
+        Authorization: `token ${token}`,
+        Accept: 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+    if(!res.ok){
+      const err = await res.json();
+      throw new Error(err.message || 'HTTP ' + res.status);
+    }
+    const json = await res.json();
+    ghFileSha = json.content.sha;
+    showStatus('✓ Guardado en GitHub · ' + new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}));
+  } catch(e) {
+    showStatus('⚠ Error al guardar: ' + e.message);
+  }
+}
+
+// debounce saves to avoid hammering the API on rapid changes
+function scheduleSave(){
+  if(saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveToGitHub, 800);
+}
+
+async function init(){
+  const loaded = await loadFromGitHub();
+  if(!loaded){
+    state.tasks = JSON.parse(JSON.stringify(DEFAULT_TASKS));
+    showStatus('Datos iniciales — se guardarán en GitHub al primer cambio');
+  } else {
+    showStatus('✓ Datos cargados desde GitHub');
+  }
+  renderMonth();
+}
+
+/* ---- EXPORT / IMPORT ---- */
+function exportJSON(){
+  const data = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    viewYear: state.viewYear,
+    viewMonth: state.viewMonth,
+    nextId,
+    tasks: state.tasks
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const fecha = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = `ara_studio_${fecha}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Exportado como ara_studio_' + fecha + '.json');
+  showStatus('✓ Exportado — copia de seguridad guardada');
+}
+
+function importJSON(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if(!parsed.tasks || !Array.isArray(parsed.tasks)) throw new Error('Formato inválido');
+      state.tasks = parsed.tasks;
+      state.viewYear = parsed.viewYear || 2026;
+      state.viewMonth = parsed.viewMonth || 5;
+      nextId = parsed.nextId || 100;
+      renderMonth();
+      scheduleSave();
+      showToast('Datos importados y guardados en GitHub');
+      showStatus('✓ Importado correctamente');
+    } catch(err){
+      showToast('Error: archivo no válido');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+/* ---- UI helpers ---- */
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
+function showStatus(msg){ document.getElementById('save-status').textContent=msg; }
+function taskById(id){ return state.tasks.find(t=>t.id===id); }
+function dateKey(y,m,d){ return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`; }
+
+/* ---- MODAL ---- */
+function openAddModal(){
+  isAddMode=true; editId=null;
+  modalP=1; modalStatus='none'; modalOwner=null;
+  document.getElementById('modal-title').textContent='Nueva tarea';
+  document.getElementById('modal-name-row').style.display='block';
+  document.getElementById('modal-name-input').value='';
+  buildModalActions(); refreshModalUI();
+  document.getElementById('modal-overlay').classList.add('open');
+  setTimeout(()=>document.getElementById('modal-name-input').focus(),100);
+}
+
+function openModal(id){
+  const task=taskById(id); if(!task) return;
+  isAddMode=false; editId=id;
+  modalP=task.p||1; modalStatus=task.status||'none'; modalOwner=task.owner||null;
+  document.getElementById('modal-title').textContent=task.text;
+  document.getElementById('modal-name-row').style.display='none';
+  buildModalActions(); refreshModalUI();
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function buildModalActions(){
+  const div=document.getElementById('modal-actions');
+  if(isAddMode){
+    div.innerHTML='<button class="btn-cancel2" onclick="closeModal()">Cancelar</button><button class="btn-apply" onclick="saveModal()">Añadir tarea</button>';
+  } else {
+    div.innerHTML='<button class="btn-delete" onclick="deleteTask()" title="Eliminar tarea">🗑</button><button class="btn-cancel2" onclick="closeModal()">Cancelar</button><button class="btn-apply" onclick="saveModal()">Aplicar</button>';
+  }
+}
+
+function closeModal(){ document.getElementById('modal-overlay').classList.remove('open'); editId=null; isAddMode=false; }
+function closeModalOutside(e){ if(e.target===document.getElementById('modal-overlay')) closeModal(); }
+function setPriority(p){ modalP=p; refreshModalUI(); }
+function setStatus(s){ modalStatus=s; refreshModalUI(); }
+function setOwner(o){ modalOwner=(modalOwner===o)?null:o; refreshModalUI(); }
+
+function refreshModalUI(){
+  [1,2,3,4].forEach(p=>document.getElementById('p-'+p).classList.toggle('active',p===modalP));
+  ['none','progress','done'].forEach(s=>document.getElementById('s-'+s).classList.toggle('active',s===modalStatus));
+  ['raul','carlota','ambos'].forEach(o=>document.getElementById('o-'+o).classList.toggle('active',o===modalOwner));
+}
+
+function saveModal(){
+  if(isAddMode){
+    const name=document.getElementById('modal-name-input').value.trim();
+    if(!name){ document.getElementById('modal-name-input').focus(); return; }
+    state.tasks.push({id:'u'+(nextId++),text:name,p:modalP,date:null,status:modalStatus,owner:modalOwner});
+  } else {
+    if(!editId) return;
+    const task=taskById(editId);
+    if(task){ task.p=modalP; task.status=modalStatus; task.owner=modalOwner; }
+  }
+  closeModal();
+  scheduleSave();
+  renderMonth();
+}
+
+function deleteTask(){
+  if(!editId||!confirm('¿Eliminar esta tarea?')) return;
+  state.tasks=state.tasks.filter(t=>t.id!==editId);
+  closeModal();
+  scheduleSave();
+  renderMonth();
+}
+
+/* ---- CALENDAR ---- */
+function renderMonth(){
+  const {viewYear:y,viewMonth:m}=state;
+  const months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  document.getElementById('month-label').textContent=`${months[m]} ${y}`;
+  const grid=document.getElementById('cal-grid');
+  grid.querySelectorAll('.cal-day').forEach(e=>e.remove());
+  const firstDay=new Date(y,m,1);
+  let startDow=firstDay.getDay(); startDow=startDow===0?6:startDow-1;
+  const daysInMonth=new Date(y,m+1,0).getDate();
+  const prevDays=new Date(y,m,0).getDate();
+  const tasksByDate={};
+  state.tasks.forEach(t=>{if(t.date){if(!tasksByDate[t.date])tasksByDate[t.date]=[]; tasksByDate[t.date].push(t);}});
+  for(let i=0;i<startDow;i++) grid.appendChild(makeCell(null,prevDays-startDow+1+i,true));
+  for(let d=1;d<=daysInMonth;d++){
+    const key=dateKey(y,m,d);
+    const cellDate=new Date(y,m,d);
+    const isToday=cellDate.toDateString()===TODAY.toDateString();
+    const todayStart=new Date(TODAY.getFullYear(),TODAY.getMonth(),TODAY.getDate());
+    const inRange=cellDate>=todayStart&&cellDate<=LIMIT;
+    const cell=makeCell(key,d,false,isToday,!inRange&&!isToday);
+    if(tasksByDate[key]) tasksByDate[key].sort((a,b)=>a.p-b.p).forEach(t=>cell.appendChild(makeChip(t)));
+    grid.appendChild(cell);
+  }
+  const total=startDow+daysInMonth;
+  const rem=total%7===0?0:7-(total%7);
+  for(let i=1;i<=rem;i++) grid.appendChild(makeCell(null,i,true));
+  renderUnscheduled();
+}
+
+function makeCell(key,d,otherMonth,isToday,disabled){
+  const div=document.createElement('div');
+  div.className='cal-day'+(otherMonth?' other-month':'')+(isToday?' today':'')+(disabled?' disabled':'');
+  const num=document.createElement('div'); num.className='day-num'; num.textContent=d; div.appendChild(num);
+  if(key&&!disabled){
+    div.ondragover=e=>onDragOver(e,div);
+    div.ondragleave=()=>onDragLeave(div);
+    div.ondrop=e=>onDrop(e,key);
+  }
+  return div;
+}
+
+function makeChip(task){
+  const chip=document.createElement('div');
+  chip.className=`task-chip p${task.p} status-${task.status||'none'}`;
+  chip.draggable=true; chip.dataset.id=task.id;
+  chip.title='Clic para editar · Arrastra para mover';
+  const top=document.createElement('div'); top.className='chip-top';
+  const txt=document.createElement('span'); txt.className='chip-text'; txt.textContent=task.text;
+  top.appendChild(txt);
+  if(task.owner){ const ow=document.createElement('span'); ow.className='chip-owner'; ow.textContent=OWNER_LABEL[task.owner]; top.appendChild(ow); }
+  chip.appendChild(top);
+  const bar=document.createElement('div'); bar.className='chip-status-bar'; chip.appendChild(bar);
+  chip.addEventListener('dragstart',e=>{ dragId=task.id; setTimeout(()=>chip.classList.add('dragging'),0); e.dataTransfer.effectAllowed='move'; });
+  chip.addEventListener('dragend',()=>chip.classList.remove('dragging'));
+  chip.addEventListener('click',e=>{ e.stopPropagation(); openModal(task.id); });
+  return chip;
+}
+
+function onDragOver(e,el){ e.preventDefault(); e.dataTransfer.dropEffect='move'; el.classList.add('drag-over'); }
+function onDragLeave(el){ el.classList.remove('drag-over'); }
+function onDrop(e,key){
+  e.preventDefault(); e.currentTarget.classList.remove('drag-over');
+  if(!dragId) return;
+  const task=taskById(dragId);
+  if(task) task.date=key==='unscheduled'?null:key;
+  dragId=null;
+  scheduleSave();
+  renderMonth();
+}
+
+function renderUnscheduled(){
+  const c=document.getElementById('unscheduled'); c.innerHTML='';
+  state.tasks.filter(t=>!t.date).sort((a,b)=>a.p-b.p).forEach(t=>c.appendChild(makeChip(t)));
+}
+
+function prevMonth(){
+  if(state.viewMonth===5&&state.viewYear===2026) return;
+  if(state.viewMonth===0){state.viewMonth=11;state.viewYear--;}else state.viewMonth--;
+  renderMonth();
+}
+function nextMonth(){
+  if(state.viewMonth===7&&state.viewYear===2026) return;
+  if(state.viewMonth===11){state.viewMonth=0;state.viewYear++;}else state.viewMonth++;
+  renderMonth();
+}
+
+document.getElementById('modal-name-input').addEventListener('keydown',e=>{ if(e.key==='Enter') saveModal(); });
+
+init();
+</script>
+</body>
+</html>
