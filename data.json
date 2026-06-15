@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "savedAt": "2026-06-15T11:19:52.470Z",
+  "savedAt": "2026-06-15T11:19:56.421Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 108,
@@ -257,7 +257,7 @@
       "id": "u102",
       "text": "Analizar App studio",
       "p": 4,
-      "date": "2026-06-30",
+      "date": null,
       "status": "none",
       "owner": null
     },
