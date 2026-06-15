@@ -41,6 +41,8 @@ h1{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:#
 .day-num{font-size:11px;color:#888780;margin-bottom:3px}
 .today .day-num{color:#0F6E56;font-weight:500}
 .task-chip{font-size:10px;padding:3px 5px;border-radius:4px;margin-bottom:2px;cursor:grab;user-select:none;line-height:1.4;position:relative}
+.task-chip.touch-dragging{opacity:0.35;transform:scale(0.97)}
+.touch-ghost{position:fixed;pointer-events:none;z-index:999;opacity:0.85;border-radius:4px;padding:3px 5px;font-size:10px;font-family:'DM Sans',sans-serif;line-height:1.4;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;box-shadow:0 4px 12px rgba(0,0,0,0.2)}
 .task-chip:active{cursor:grabbing}
 .task-chip.dragging{opacity:0.35}
 .chip-top{display:flex;align-items:center;gap:3px;overflow:hidden}
@@ -520,6 +522,21 @@ function makeChip(task){
   chip.addEventListener('dragstart',e=>{ dragId=task.id; setTimeout(()=>chip.classList.add('dragging'),0); e.dataTransfer.effectAllowed='move'; });
   chip.addEventListener('dragend',()=>chip.classList.remove('dragging'));
   chip.addEventListener('click',e=>{ e.stopPropagation(); openModal(task.id); });
+
+  // Touch support
+  let touchTimer=null;
+  chip.addEventListener('touchstart',e=>{
+    touchTimer=setTimeout(()=>{
+      touchTimer=null;
+      startTouchDrag(e,task,chip);
+    },300);
+  },{passive:true});
+  chip.addEventListener('touchend',()=>{
+    if(touchTimer){ clearTimeout(touchTimer); touchTimer=null; }
+  });
+  chip.addEventListener('touchmove',()=>{
+    if(touchTimer){ clearTimeout(touchTimer); touchTimer=null; }
+  },{passive:true});
   return chip;
 }
 
@@ -549,6 +566,86 @@ function nextMonth(){
   if(state.viewMonth===7&&state.viewYear===2026) return;
   if(state.viewMonth===11){state.viewMonth=0;state.viewYear++;}else state.viewMonth++;
   renderMonth();
+}
+
+/* ---- TOUCH DRAG ---- */
+let touchGhost=null, touchDragId=null, lastTouchTarget=null;
+
+function startTouchDrag(e,task,chip){
+  touchDragId=task.id;
+  chip.classList.add('touch-dragging');
+
+  // Create ghost element that follows the finger
+  touchGhost=document.createElement('div');
+  touchGhost.className='touch-ghost p'+task.p;
+  touchGhost.textContent=task.text;
+  document.body.appendChild(touchGhost);
+
+  const touch=e.touches[0];
+  moveTouchGhost(touch.clientX,touch.clientY);
+
+  // Bind move and end to document
+  document.addEventListener('touchmove',onTouchMove,{passive:false});
+  document.addEventListener('touchend',onTouchEnd);
+
+  showToast('Arrastra al día destino');
+
+  function onTouchMove(ev){
+    ev.preventDefault();
+    const t=ev.touches[0];
+    moveTouchGhost(t.clientX,t.clientY);
+
+    // Highlight drop target
+    touchGhost.style.display='none';
+    const el=document.elementFromPoint(t.clientX,t.clientY);
+    touchGhost.style.display='';
+    const cell=el&&el.closest('.cal-day:not(.other-month):not(.disabled), .unscheduled-tasks');
+    if(cell!==lastTouchTarget){
+      if(lastTouchTarget) lastTouchTarget.classList.remove('drag-over');
+      if(cell) cell.classList.add('drag-over');
+      lastTouchTarget=cell||null;
+    }
+  }
+
+  function onTouchEnd(ev){
+    document.removeEventListener('touchmove',onTouchMove);
+    document.removeEventListener('touchend',onTouchEnd);
+    chip.classList.remove('touch-dragging');
+    if(touchGhost){ touchGhost.remove(); touchGhost=null; }
+    if(lastTouchTarget){ lastTouchTarget.classList.remove('drag-over'); }
+
+    const t=ev.changedTouches[0];
+    touchGhost&&(touchGhost.style.display='none');
+    const el=document.elementFromPoint(t.clientX,t.clientY);
+    const calCell=el&&el.closest('.cal-day:not(.other-month):not(.disabled)');
+    const unscheduled=el&&el.closest('.unscheduled-tasks');
+
+    if(touchDragId){
+      const tsk=taskById(touchDragId);
+      if(tsk){
+        if(calCell){
+          // find date key from the cell's day number
+          const dayNum=calCell.querySelector('.day-num');
+          if(dayNum){
+            const d=parseInt(dayNum.textContent);
+            tsk.date=dateKey(state.viewYear,state.viewMonth,d);
+          }
+        } else if(unscheduled){
+          tsk.date=null;
+        }
+      }
+      scheduleSave();
+      renderMonth();
+    }
+    touchDragId=null;
+    lastTouchTarget=null;
+  }
+}
+
+function moveTouchGhost(x,y){
+  if(!touchGhost) return;
+  touchGhost.style.left=(x+12)+'px';
+  touchGhost.style.top=(y-20)+'px';
 }
 
 document.getElementById('modal-name-input').addEventListener('keydown',e=>{ if(e.key==='Enter') saveModal(); });
