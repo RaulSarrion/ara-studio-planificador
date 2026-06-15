@@ -307,8 +307,13 @@ async function saveToGitHub(){
     tasks: state.tasks
   };
   const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+
+  // If we don't have a SHA yet, fetch it first
+  if(!ghFileSha) await fetchCurrentSha(token);
+
   const body = { message: 'update: ' + new Date().toISOString(), content };
   if(ghFileSha) body.sha = ghFileSha;
+
   try {
     const res = await fetch(GH_API, {
       method: 'PUT',
@@ -319,16 +324,47 @@ async function saveToGitHub(){
       },
       body: JSON.stringify(body)
     });
-    if(!res.ok){
+
+    // SHA conflict — refetch and retry once
+    if(res.status === 409 || res.status === 422){
+      await fetchCurrentSha(token);
+      body.sha = ghFileSha;
+      const retry = await fetch(GH_API, {
+        method: 'PUT',
+        headers: {
+          Authorization: `token ${token}`,
+          Accept: 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      });
+      if(!retry.ok) throw new Error('HTTP ' + retry.status);
+      const json = await retry.json();
+      ghFileSha = json.content.sha;
+    } else if(!res.ok){
       const err = await res.json();
       throw new Error(err.message || 'HTTP ' + res.status);
+    } else {
+      const json = await res.json();
+      ghFileSha = json.content.sha;
     }
-    const json = await res.json();
-    ghFileSha = json.content.sha;
+
     showStatus('✓ Guardado en GitHub · ' + new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}));
   } catch(e) {
     showStatus('⚠ Error al guardar: ' + e.message);
   }
+}
+
+async function fetchCurrentSha(token){
+  try {
+    const res = await fetch(GH_API, {
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
+    });
+    if(res.ok){
+      const json = await res.json();
+      ghFileSha = json.sha;
+    }
+  } catch(e){ /* ignore */ }
 }
 
 // debounce saves to avoid hammering the API on rapid changes
