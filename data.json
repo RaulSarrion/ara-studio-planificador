@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "savedAt": "2026-06-17T12:06:21.372Z",
+  "savedAt": "2026-06-17T14:05:26.491Z",
   "viewYear": 2026,
   "viewMonth": 5,
-  "nextId": 108,
+  "nextId": 109,
   "tasks": [
     {
       "id": "t1",
@@ -300,6 +300,14 @@
       "date": "2026-06-24",
       "status": "none",
       "owner": null
+    },
+    {
+      "id": "u108",
+      "text": "Avisar chats insta que tenemos web",
+      "p": 3,
+      "date": null,
+      "status": "none",
+      "owner": "carlota"
     }
   ]
 }
