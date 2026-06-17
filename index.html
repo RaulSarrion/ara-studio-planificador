@@ -65,11 +65,36 @@ h1{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:#
 .unscheduled-tasks{display:flex;flex-wrap:wrap;gap:6px;min-height:36px;border-radius:6px;padding:2px;transition:background 0.15s}
 .unscheduled-tasks.drag-over{background:white;outline:1.5px dashed #1D9E75}
 
+/* ---- VIEW CONTROLS ---- */
+.view-controls{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:1rem}
+.view-switch{display:flex;border:0.5px solid #D3D1C7;border-radius:8px;overflow:hidden}
+.view-btn{font-family:'DM Sans',sans-serif;font-size:12px;padding:6px 12px;background:white;border:none;border-right:0.5px solid #D3D1C7;color:#888780;cursor:pointer;transition:background 0.15s,color 0.15s}
+.view-btn:last-child{border-right:none}
+.view-btn:hover{background:#F1EFE8}
+.view-btn.active{background:#2C2C2A;color:white}
+
+/* Visibility driven by body data-view attribute, not media query */
+body[data-view="month"] .cal-grid{display:grid}
+body[data-view="month"] .week-view{display:none}
+body[data-view="month"] .month-nav{display:flex}
+body[data-view="month"] .week-nav{display:none}
+
+body[data-view="2weeks"] .cal-grid{display:none}
+body[data-view="2weeks"] .week-view{display:block}
+body[data-view="2weeks"] .month-nav{display:none}
+body[data-view="2weeks"] .week-nav{display:flex}
+body[data-view="2weeks"] #week-grid-2{display:grid}
+
+body[data-view="1week"] .cal-grid{display:none}
+body[data-view="1week"] .week-view{display:block}
+body[data-view="1week"] .month-nav{display:none}
+body[data-view="1week"] .week-nav{display:flex}
+body[data-view="1week"] #week-grid-2{display:none}
+
 /* info banner */
 .info-banner{background:#E6F1FB;border:0.5px solid #B5D4F4;border-radius:8px;padding:10px 14px;margin-bottom:1rem;font-size:12px;color:#185FA5;display:flex;align-items:center;gap:10px}
 .info-banner strong{font-weight:500}
 
-/* ---- MOBILE WEEK VIEW ---- */
 @media (max-width: 600px) {
   html,body{overflow-x:hidden;max-width:100vw}
   body{padding:0.75rem}
@@ -78,18 +103,14 @@ h1{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:#
   .header-right{gap:5px}
   .info-banner{display:none}
   .legend{display:none}
-  .cal-grid{display:none}
-  .week-view{display:block}
-  .month-nav{display:none}
   .week-day .task-chip{font-size:8px;padding:2px 3px;margin-bottom:1px}
   .week-day .chip-owner{display:none}
-}
-@media (min-width:601px){
-  .week-view{display:none}
+  .view-controls{gap:6px}
+  .view-btn{font-size:11px;padding:5px 9px}
 }
 .week-view{margin-bottom:1rem;width:100%;overflow:hidden}
-.week-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:4px}
-.week-label{font-size:13px;font-weight:500;text-align:center;flex:1;color:#2C2C2A}
+.week-nav{display:flex;align-items:center;gap:8px}
+.week-label{font-size:13px;font-weight:500;text-align:center;color:#2C2C2A;min-width:140px}
 .week-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;width:100%}
 .week-day{min-height:62px;min-width:0;border:0.5px solid #D3D1C7;border-radius:5px;padding:2px;background:white;position:relative;overflow:hidden}
 .week-day.today{border:1.5px solid #1D9E75}
@@ -144,11 +165,24 @@ h1{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:#
     <button class="btn btn-import" onclick="document.getElementById('import-input').click()" title="Carga un .json guardado anteriormente">⬆ Importar</button>
     <button class="btn btn-token" onclick="updateToken()" title="Actualizar el token de acceso a GitHub">🔑 Token</button>
     <input type="file" id="import-input" accept=".json" style="display:none" onchange="importJSON(event)">
-    <div class="month-nav">
-      <button class="nav-btn" onclick="prevMonth()">‹</button>
-      <span class="month-label" id="month-label"></span>
-      <button class="nav-btn" onclick="nextMonth()">›</button>
-    </div>
+  </div>
+</div>
+
+<div class="view-controls">
+  <div class="view-switch">
+    <button class="view-btn" id="vbtn-month" onclick="setViewMode('month')">Mes</button>
+    <button class="view-btn" id="vbtn-2weeks" onclick="setViewMode('2weeks')">2 Semanas</button>
+    <button class="view-btn" id="vbtn-1week" onclick="setViewMode('1week')">1 Semana</button>
+  </div>
+  <div class="month-nav" id="month-nav">
+    <button class="nav-btn" onclick="prevMonth()">‹</button>
+    <span class="month-label" id="month-label"></span>
+    <button class="nav-btn" onclick="nextMonth()">›</button>
+  </div>
+  <div class="week-nav" id="week-nav">
+    <button class="nav-btn" onclick="prevWeek()">‹</button>
+    <span class="week-label" id="week-label"></span>
+    <button class="nav-btn" onclick="nextWeek()">›</button>
   </div>
 </div>
 
@@ -181,13 +215,8 @@ h1{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:#
   <div class="cal-day-name">Dom</div>
 </div>
 
-<!-- Mobile two-week view -->
+<!-- Week view (1 or 2 weeks depending on mode) -->
 <div class="week-view" id="week-view">
-  <div class="week-nav">
-    <button class="nav-btn" onclick="prevWeek()">‹</button>
-    <span class="week-label" id="week-label"></span>
-    <button class="nav-btn" onclick="nextWeek()">›</button>
-  </div>
   <div class="week-grid" id="week-grid"></div>
   <div class="week-grid" id="week-grid-2" style="margin-top:6px"></div>
 </div>
@@ -441,6 +470,25 @@ function scheduleSave(){
   saveTimer = setTimeout(saveToGitHub, 800);
 }
 
+const VIEW_MODE_KEY = 'ara_view_mode';
+
+function setViewMode(mode){
+  document.body.dataset.view = mode;
+  localStorage.setItem(VIEW_MODE_KEY, mode);
+  document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('active'));
+  const btnId = mode==='month' ? 'vbtn-month' : (mode==='2weeks' ? 'vbtn-2weeks' : 'vbtn-1week');
+  document.getElementById(btnId).classList.add('active');
+  renderMonth();
+  renderWeek();
+}
+
+function getDefaultViewMode(){
+  const saved = localStorage.getItem(VIEW_MODE_KEY);
+  if(saved) return saved;
+  // sensible default: 2 weeks on small screens, month on larger ones
+  return window.innerWidth <= 600 ? '2weeks' : 'month';
+}
+
 async function init(){
   const loaded = await loadFromGitHub();
   if(!loaded){
@@ -449,8 +497,7 @@ async function init(){
   } else {
     showStatus('✓ Datos cargados desde GitHub');
   }
-  renderMonth();
-  renderWeek();
+  setViewMode(getDefaultViewMode());
 }
 
 /* ---- EXPORT / IMPORT ---- */
@@ -594,8 +641,14 @@ function getWeekStart(offset){
   return d;
 }
 
-function prevWeek(){ weekOffset -= 2; renderWeek(); }
-function nextWeek(){ weekOffset += 2; renderWeek(); }
+function prevWeek(){
+  weekOffset -= (document.body.dataset.view === '1week') ? 1 : 2;
+  renderWeek();
+}
+function nextWeek(){
+  weekOffset += (document.body.dataset.view === '1week') ? 1 : 2;
+  renderWeek();
+}
 
 function renderOneWeekGrid(gridEl,offset){
   gridEl.innerHTML = '';
@@ -637,8 +690,22 @@ function renderWeek(){
   const label = document.getElementById('week-label');
   const grid1 = document.getElementById('week-grid');
   const grid2 = document.getElementById('week-grid-2');
+  const isOneWeek = document.body.dataset.view === '1week';
 
   const week1Start = renderOneWeekGrid(grid1, weekOffset);
+
+  if(isOneWeek){
+    const week1End = new Date(week1Start); week1End.setDate(week1End.getDate()+6);
+    const months = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+    const s = week1Start, e = week1End;
+    if(s.getMonth()===e.getMonth()){
+      label.textContent = `${s.getDate()}–${e.getDate()} ${months[s.getMonth()]} ${s.getFullYear()}`;
+    } else {
+      label.textContent = `${s.getDate()} ${months[s.getMonth()]} – ${e.getDate()} ${months[e.getMonth()]}`;
+    }
+    return;
+  }
+
   const week2Start = renderOneWeekGrid(grid2, weekOffset+1);
   const week2End = new Date(week2Start); week2End.setDate(week2End.getDate()+6);
 
