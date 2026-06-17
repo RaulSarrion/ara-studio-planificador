@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "savedAt": "2026-06-17T12:06:17.849Z",
+  "savedAt": "2026-06-17T12:06:21.372Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 108,
@@ -105,7 +105,7 @@
       "id": "t13",
       "text": "Puerta cristal",
       "p": 3,
-      "date": "2026-06-19",
+      "date": null,
       "status": "none",
       "owner": null
     },
