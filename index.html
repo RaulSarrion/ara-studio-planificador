@@ -607,11 +607,10 @@ function renderWeek(){
     const day = new Date(weekStart); day.setDate(day.getDate()+i);
     const key = dateKey(day.getFullYear(), day.getMonth(), day.getDate());
     const isToday = day.toDateString()===TODAY.toDateString();
-    const todayStart = new Date(TODAY); todayStart.setHours(0,0,0,0);
-    const inRange = day >= todayStart && day <= LIMIT;
+    const inRange = day <= LIMIT;
 
     const cell = document.createElement('div');
-    cell.className = 'week-day' + (isToday?' today':'') + (!inRange&&!isToday?' disabled':'');
+    cell.className = 'week-day' + (isToday?' today':'') + (!inRange?' disabled':'');
     cell.dataset.dateKey = key;
 
     const dname = document.createElement('div'); dname.className='week-day-name'; dname.textContent=DAY_NAMES[i];
@@ -619,7 +618,7 @@ function renderWeek(){
     cell.appendChild(dname);
     cell.appendChild(dnum);
 
-    if(inRange || isToday){
+    if(inRange){
       cell.ondragover=e=>onDragOver(e,cell);
       cell.ondragleave=()=>onDragLeave(cell);
       cell.ondrop=e=>onDrop(e,key);
@@ -649,9 +648,8 @@ function renderMonth(){
     const key=dateKey(y,m,d);
     const cellDate=new Date(y,m,d);
     const isToday=cellDate.toDateString()===TODAY.toDateString();
-    const todayStart=new Date(TODAY.getFullYear(),TODAY.getMonth(),TODAY.getDate());
-    const inRange=cellDate>=todayStart&&cellDate<=LIMIT;
-    const cell=makeCell(key,d,false,isToday,!inRange&&!isToday);
+    const inRange=cellDate<=LIMIT;
+    const cell=makeCell(key,d,false,isToday,!inRange);
     if(tasksByDate[key]) tasksByDate[key].sort((a,b)=>a.p-b.p).forEach(t=>cell.appendChild(makeChip(t)));
     grid.appendChild(cell);
   }
