@@ -337,7 +337,7 @@ async function loadFromGitHub(){
     if(!res.ok) throw new Error('HTTP ' + res.status);
     const json = await res.json();
     ghFileSha = json.sha;
-    const decoded = JSON.parse(atob(json.content.replace(/\n/g,'')));
+    const decoded = JSON.parse(decodeURIComponent(escape(atob(json.content.replace(/\n/g,'')))));
     state.tasks = decoded.tasks;
     state.viewYear = decoded.viewYear || 2026;
     state.viewMonth = decoded.viewMonth || 5;
@@ -508,8 +508,9 @@ function openModal(id){
   const task=taskById(id); if(!task) return;
   isAddMode=false; editId=id;
   modalP=task.p||1; modalStatus=task.status||'none'; modalOwner=task.owner||null;
-  document.getElementById('modal-title').textContent=task.text;
-  document.getElementById('modal-name-row').style.display='none';
+  document.getElementById('modal-title').textContent='Editar tarea';
+  document.getElementById('modal-name-row').style.display='block';
+  document.getElementById('modal-name-input').value=task.text;
   buildModalActions(); refreshModalUI();
   document.getElementById('modal-overlay').classList.add('open');
 }
@@ -543,7 +544,9 @@ function saveModal(){
   } else {
     if(!editId) return;
     const task=taskById(editId);
-    if(task){ task.p=modalP; task.status=modalStatus; task.owner=modalOwner; }
+    const name=document.getElementById('modal-name-input').value.trim();
+    if(!name){ document.getElementById('modal-name-input').focus(); return; }
+    if(task){ task.text=name; task.p=modalP; task.status=modalStatus; task.owner=modalOwner; }
   }
   closeModal();
   scheduleSave();
