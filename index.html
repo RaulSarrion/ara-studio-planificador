@@ -65,7 +65,52 @@ h1{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:#
 .unscheduled-tasks{display:flex;flex-wrap:wrap;gap:6px;min-height:36px;border-radius:6px;padding:2px;transition:background 0.15s}
 .unscheduled-tasks.drag-over{background:white;outline:1.5px dashed #1D9E75}
 
-/* ---- VIEW CONTROLS ---- */
+/* ---- TOOLBAR: search + filters ---- */
+.toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:1rem}
+.search-box{display:flex;align-items:center;gap:6px;border:0.5px solid #D3D1C7;border-radius:8px;padding:5px 10px;background:white;flex:1;min-width:160px;max-width:280px}
+.search-icon{font-size:12px;opacity:0.6}
+.search-box input{border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:13px;flex:1;background:transparent;color:#2C2C2A}
+.search-clear{background:none;border:none;cursor:pointer;font-size:16px;color:#888780;padding:0 2px;line-height:1}
+.filter-group{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.filter-select{font-family:'DM Sans',sans-serif;font-size:12px;padding:5px 8px;border:0.5px solid #D3D1C7;border-radius:8px;background:white;color:#2C2C2A;cursor:pointer}
+.filter-reset{font-family:'DM Sans',sans-serif;font-size:12px;padding:5px 10px;border:0.5px solid #D14B4B;border-radius:8px;background:white;color:#D14B4B;cursor:pointer}
+.filter-reset:hover{background:#FBEAEA}
+
+/* ---- PROGRESS PANEL ---- */
+.progress-panel{margin-bottom:1.25rem}
+.progress-summary{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:13px;color:#2C2C2A}
+.progress-summary strong{font-weight:600}
+.progress-bar-track{height:8px;border-radius:4px;background:#E5E2D8;overflow:hidden;margin-bottom:10px}
+.progress-bar-fill{height:100%;background:#1D9E75;border-radius:4px;transition:width 0.3s}
+.progress-by-priority{display:flex;flex-wrap:wrap;gap:14px;font-size:11px;color:#888780}
+.progress-chip{display:flex;align-items:center;gap:5px}
+.progress-chip-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* ---- LIST/AGENDA VIEW ---- */
+.list-view{display:none;margin-bottom:1.5rem}
+.list-group{margin-bottom:1.25rem}
+.list-group-title{font-size:13px;font-weight:600;color:#2C2C2A;margin-bottom:6px;padding-bottom:4px;border-bottom:0.5px solid #D3D1C7;display:flex;align-items:center;gap:8px}
+.list-group-title.overdue{color:#D14B4B}
+.list-item{display:flex;align-items:center;gap:10px;padding:8px 6px;border-radius:6px;cursor:pointer;transition:background 0.15s}
+.list-item:hover{background:#F1EFE8}
+.list-item-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.list-item-text{flex:1;font-size:13px;color:#2C2C2A}
+.list-item-text.done{text-decoration:line-through;opacity:0.5}
+.list-item-date{font-size:11px;color:#888780;white-space:nowrap}
+.list-item-owner{font-size:10px;font-weight:600;color:#888780;background:#F1EFE8;border-radius:4px;padding:2px 5px;white-space:nowrap}
+.list-empty{font-size:13px;color:#888780;padding:1rem 0;text-align:center}
+
+body[data-view="list"] .cal-grid{display:none}
+body[data-view="list"] .week-view{display:none}
+body[data-view="list"] .month-nav{display:none}
+body[data-view="list"] .week-nav{display:none}
+body[data-view="list"] .list-view{display:block}
+body[data-view="list"] .unscheduled-panel{display:none}
+
+/* ---- ENHANCED MOBILE TOAST ---- */
+.toast.save-toast{background:#1D9E75;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,0.18)}
+.toast.error-toast{background:#D14B4B}
+
 .view-controls{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:1rem}
 .view-switch{display:flex;border:0.5px solid #D3D1C7;border-radius:8px;overflow:hidden}
 .view-btn{font-family:'DM Sans',sans-serif;font-size:12px;padding:6px 12px;background:white;border:none;border-right:0.5px solid #D3D1C7;color:#888780;cursor:pointer;transition:background 0.15s,color 0.15s}
@@ -107,6 +152,9 @@ body[data-view="1week"] #week-grid-2{display:none}
   .week-day .chip-owner{display:none}
   .view-controls{gap:6px}
   .view-btn{font-size:11px;padding:5px 9px}
+  .toolbar{flex-direction:column;align-items:stretch}
+  .search-box{max-width:none}
+  .toast{bottom:18px;font-size:14px;padding:11px 22px;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,0.25)}
 }
 .week-view{margin-bottom:1rem;width:100%;overflow:hidden}
 .week-nav{display:flex;align-items:center;gap:8px}
@@ -147,7 +195,7 @@ body[data-view="1week"] #week-grid-2{display:none}
 .btn-apply:hover{background:#0F6E56}
 .btn-delete{background:none;border:0.5px solid #F4C0D1;color:#99355A;padding:7px 10px;flex:0}
 .btn-delete:hover{background:#FBEAF0}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#2C2C2A;color:white;padding:9px 20px;border-radius:8px;font-size:13px;opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:200;white-space:nowrap}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#2C2C2A;color:white;padding:9px 20px;border-radius:8px;font-size:13px;opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:200;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis}
 .toast.show{opacity:1}
 </style>
 </head>
@@ -173,6 +221,7 @@ body[data-view="1week"] #week-grid-2{display:none}
     <button class="view-btn" id="vbtn-month" onclick="setViewMode('month')">Mes</button>
     <button class="view-btn" id="vbtn-2weeks" onclick="setViewMode('2weeks')">2 Semanas</button>
     <button class="view-btn" id="vbtn-1week" onclick="setViewMode('1week')">1 Semana</button>
+    <button class="view-btn" id="vbtn-list" onclick="setViewMode('list')">Lista</button>
   </div>
   <div class="month-nav" id="month-nav">
     <button class="nav-btn" onclick="prevMonth()">‹</button>
@@ -185,6 +234,33 @@ body[data-view="1week"] #week-grid-2{display:none}
     <button class="nav-btn" onclick="nextWeek()">›</button>
   </div>
 </div>
+
+<div class="toolbar">
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="search-input" placeholder="Buscar tarea..." oninput="onSearchInput()">
+    <button class="search-clear" id="search-clear" onclick="clearSearch()" style="display:none">×</button>
+  </div>
+  <div class="filter-group">
+    <select id="filter-owner" class="filter-select" onchange="onFilterChange()">
+      <option value="">Todos</option>
+      <option value="raul">Raúl</option>
+      <option value="carlota">Carlota</option>
+      <option value="ambos">Ambos</option>
+    </select>
+    <select id="filter-priority" class="filter-select" onchange="onFilterChange()">
+      <option value="">Toda prioridad</option>
+      <option value="1">🔵 Urgente</option>
+      <option value="2">🟢 Rápido</option>
+      <option value="3">🩷 Importante</option>
+      <option value="4">🟤 Sin prisa</option>
+    </select>
+    <button class="filter-reset" id="filter-reset" onclick="resetFilters()" style="display:none">Quitar filtros</button>
+  </div>
+</div>
+
+<div class="progress-panel" id="progress-panel"></div>
+
 
 <div class="info-banner">
   ☁️ <span><strong>Guardado en GitHub.</strong> Los cambios se sincronizan automáticamente. Accede desde cualquier navegador o dispositivo — Carlota también.</span>
@@ -219,6 +295,11 @@ body[data-view="1week"] #week-grid-2{display:none}
 <div class="week-view" id="week-view">
   <div class="week-grid" id="week-grid"></div>
   <div class="week-grid" id="week-grid-2" style="margin-top:6px"></div>
+</div>
+
+<!-- List/agenda view -->
+<div class="list-view" id="list-view">
+  <div id="list-content"></div>
 </div>
 
 <div class="unscheduled-panel">
@@ -447,8 +528,10 @@ async function saveToGitHub(){
     }
 
     showStatus('✓ Guardado en GitHub · ' + new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}));
+    showToast('✓ Cambios guardados','save');
   } catch(e) {
     showStatus('⚠ Error al guardar: ' + e.message);
+    showToast('⚠ Error al guardar: ' + e.message,'error');
   }
 }
 
@@ -476,10 +559,12 @@ function setViewMode(mode){
   document.body.dataset.view = mode;
   localStorage.setItem(VIEW_MODE_KEY, mode);
   document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('active'));
-  const btnId = mode==='month' ? 'vbtn-month' : (mode==='2weeks' ? 'vbtn-2weeks' : 'vbtn-1week');
-  document.getElementById(btnId).classList.add('active');
+  const btnMap = {month:'vbtn-month','2weeks':'vbtn-2weeks','1week':'vbtn-1week',list:'vbtn-list'};
+  document.getElementById(btnMap[mode]).classList.add('active');
   renderMonth();
   renderWeek();
+  renderList();
+  renderProgress();
 }
 
 function getDefaultViewMode(){
@@ -534,7 +619,7 @@ function importJSON(event){
       state.viewYear = parsed.viewYear || 2026;
       state.viewMonth = parsed.viewMonth || 5;
       nextId = parsed.nextId || 100;
-      renderMonth();
+      refreshAllViews();
       scheduleSave();
       showToast('Datos importados y guardados en GitHub');
       showStatus('✓ Importado correctamente');
@@ -547,7 +632,12 @@ function importJSON(event){
 }
 
 /* ---- UI helpers ---- */
-function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),3000); }
+function showToast(msg,type){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast show'+(type?(' '+type+'-toast'):'');
+  setTimeout(()=>{ t.classList.remove('show'); },2200);
+}
 function showStatus(msg){ document.getElementById('save-status').textContent=msg; }
 function taskById(id){ return state.tasks.find(t=>t.id===id); }
 function dateKey(y,m,d){ return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`; }
@@ -610,8 +700,7 @@ function saveModal(){
   }
   closeModal();
   scheduleSave();
-  renderMonth();
-  renderWeek();
+  refreshAllViews();
 }
 
 function deleteTask(){
@@ -619,8 +708,7 @@ function deleteTask(){
   state.tasks=state.tasks.filter(t=>t.id!==editId);
   closeModal();
   scheduleSave();
-  renderMonth();
-  renderWeek();
+  refreshAllViews();
 }
 
 const TODAY = new Date();
@@ -650,12 +738,58 @@ function nextWeek(){
   renderWeek();
 }
 
+/* ---- SEARCH & FILTERS ---- */
+let searchQuery = '';
+let filterOwner = '';
+let filterPriority = '';
+
+function onSearchInput(){
+  searchQuery = document.getElementById('search-input').value.trim().toLowerCase();
+  document.getElementById('search-clear').style.display = searchQuery ? 'inline-flex' : 'none';
+  refreshAllViews();
+}
+function clearSearch(){
+  searchQuery = '';
+  document.getElementById('search-input').value = '';
+  document.getElementById('search-clear').style.display = 'none';
+  refreshAllViews();
+}
+function onFilterChange(){
+  filterOwner = document.getElementById('filter-owner').value;
+  filterPriority = document.getElementById('filter-priority').value;
+  const active = filterOwner || filterPriority;
+  document.getElementById('filter-reset').style.display = active ? 'inline-flex' : 'none';
+  refreshAllViews();
+}
+function resetFilters(){
+  filterOwner=''; filterPriority='';
+  document.getElementById('filter-owner').value='';
+  document.getElementById('filter-priority').value='';
+  document.getElementById('filter-reset').style.display='none';
+  refreshAllViews();
+}
+function matchesFilters(t){
+  if(filterOwner && t.owner!==filterOwner) return false;
+  if(filterPriority && String(t.p)!==filterPriority) return false;
+  if(searchQuery && !t.text.toLowerCase().includes(searchQuery)) return false;
+  return true;
+}
+function getFilteredTasks(){
+  return state.tasks.filter(matchesFilters);
+}
+function refreshAllViews(){
+  renderMonth();
+  renderWeek();
+  renderList();
+  renderProgress();
+}
+
 function renderOneWeekGrid(gridEl,offset){
   gridEl.innerHTML = '';
   const weekStart = getWeekStart(offset);
 
   const tasksByDate = {};
-  state.tasks.forEach(t=>{ if(t.date){ if(!tasksByDate[t.date]) tasksByDate[t.date]=[]; tasksByDate[t.date].push(t); }});
+  getFilteredTasks().forEach(t=>{ if(t.date){ if(!tasksByDate[t.date]) tasksByDate[t.date]=[]; tasksByDate[t.date].push(t); }});
 
   for(let i=0;i<7;i++){
     const day = new Date(weekStart); day.setDate(day.getDate()+i);
@@ -729,7 +863,7 @@ function renderMonth(){
   const daysInMonth=new Date(y,m+1,0).getDate();
   const prevDays=new Date(y,m,0).getDate();
   const tasksByDate={};
-  state.tasks.forEach(t=>{if(t.date){if(!tasksByDate[t.date])tasksByDate[t.date]=[]; tasksByDate[t.date].push(t);}});
+  getFilteredTasks().forEach(t=>{if(t.date){if(!tasksByDate[t.date])tasksByDate[t.date]=[]; tasksByDate[t.date].push(t);}});
   for(let i=0;i<startDow;i++) grid.appendChild(makeCell(null,prevDays-startDow+1+i,true));
   for(let d=1;d<=daysInMonth;d++){
     const key=dateKey(y,m,d);
@@ -800,13 +934,115 @@ function onDrop(e,key){
   if(task) task.date=key==='unscheduled'?null:key;
   dragId=null;
   scheduleSave();
-  renderMonth();
-  renderWeek();
+  refreshAllViews();
+}
+
+function renderList(){
+  const container = document.getElementById('list-content');
+  if(!container) return;
+  container.innerHTML = '';
+
+  const tasks = getFilteredTasks();
+  const withDate = tasks.filter(t=>t.date).sort((a,b)=>a.date.localeCompare(b.date) || a.p-b.p);
+  const noDate = tasks.filter(t=>!t.date).sort((a,b)=>a.p-b.p);
+
+  const todayKey = dateKey(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate());
+  const overdue = withDate.filter(t=>t.date < todayKey && t.status!=='done');
+  const upcoming = withDate.filter(t=>t.date >= todayKey || t.status==='done');
+
+  if(tasks.length===0){
+    container.innerHTML = '<div class="list-empty">No hay tareas que coincidan con la búsqueda o filtros.</div>';
+    return;
+  }
+
+  if(overdue.length){
+    container.appendChild(buildListGroup('⚠️ Pendientes y atrasadas', overdue, true));
+  }
+  if(upcoming.length){
+    container.appendChild(buildListGroup('📅 Próximas y completadas', upcoming, false));
+  }
+  if(noDate.length){
+    container.appendChild(buildListGroup('📋 Sin fecha asignada', noDate, false));
+  }
+}
+
+function buildListGroup(title, tasks, isOverdueGroup){
+  const group = document.createElement('div');
+  group.className = 'list-group';
+  const h = document.createElement('div');
+  h.className = 'list-group-title' + (isOverdueGroup ? ' overdue' : '');
+  h.textContent = title;
+  group.appendChild(h);
+
+  const pColors = {1:'#5B9BD5',2:'#7FA85C',3:'#D87FA0',4:'#9C8A6B'};
+  const months = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+
+  tasks.forEach(t=>{
+    const item = document.createElement('div');
+    item.className = 'list-item';
+    item.onclick = ()=>openModal(t.id);
+
+    const dot = document.createElement('div');
+    dot.className = 'list-item-dot';
+    dot.style.background = pColors[t.p] || '#9C8A6B';
+    item.appendChild(dot);
+
+    const text = document.createElement('div');
+    text.className = 'list-item-text' + (t.status==='done' ? ' done' : '');
+    text.textContent = t.text;
+    item.appendChild(text);
+
+    if(t.owner){
+      const own = document.createElement('div');
+      own.className = 'list-item-owner';
+      own.textContent = OWNER_LABEL[t.owner] || '';
+      item.appendChild(own);
+    }
+
+    if(t.date){
+      const [y,m,d] = t.date.split('-').map(Number);
+      const dateEl = document.createElement('div');
+      dateEl.className = 'list-item-date';
+      dateEl.textContent = `${d} ${months[m-1]}`;
+      item.appendChild(dateEl);
+    }
+
+    group.appendChild(item);
+  });
+
+  return group;
+}
+
+function renderProgress(){
+  const panel = document.getElementById('progress-panel');
+  if(!panel) return;
+
+  const tasks = getFilteredTasks();
+  const total = tasks.length;
+  const done = tasks.filter(t=>t.status==='done').length;
+  const pct = total ? Math.round((done/total)*100) : 0;
+
+  const pNames = {1:'Urgente',2:'Rápido',3:'Importante',4:'Sin prisa'};
+  const pColors = {1:'#5B9BD5',2:'#7FA85C',3:'#D87FA0',4:'#9C8A6B'};
+
+  let byPriorityHtml = '';
+  [1,2,3,4].forEach(p=>{
+    const pTasks = tasks.filter(t=>t.p===p);
+    if(!pTasks.length) return;
+    const pDone = pTasks.filter(t=>t.status==='done').length;
+    byPriorityHtml += `<div class="progress-chip"><div class="progress-chip-dot" style="background:${pColors[p]}"></div>${pNames[p]}: ${pDone}/${pTasks.length}</div>`;
+  });
+
+  panel.innerHTML = `
+    <div class="progress-summary"><strong>${done}/${total}</strong> tareas completadas (${pct}%)</div>
+    <div class="progress-bar-track"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+    <div class="progress-by-priority">${byPriorityHtml}</div>
+  `;
 }
 
 function renderUnscheduled(){
   const c=document.getElementById('unscheduled'); c.innerHTML='';
-  state.tasks.filter(t=>!t.date).sort((a,b)=>a.p-b.p).forEach(t=>c.appendChild(makeChip(t)));
+  getFilteredTasks().filter(t=>!t.date).sort((a,b)=>a.p-b.p).forEach(t=>c.appendChild(makeChip(t)));
 }
 
 function prevMonth(){
@@ -882,8 +1118,7 @@ function startTouchDrag(e,task,chip){
         }
       }
       scheduleSave();
-      renderMonth();
-      renderWeek();
+      refreshAllViews();
     }
     touchDragId=null;
     lastTouchTarget=null;
