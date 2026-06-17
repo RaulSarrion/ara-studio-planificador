@@ -91,7 +91,7 @@ h1{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:#
 .week-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:4px}
 .week-label{font-size:13px;font-weight:500;text-align:center;flex:1;color:#2C2C2A}
 .week-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;width:100%}
-.week-day{min-height:74px;min-width:0;border:0.5px solid #D3D1C7;border-radius:5px;padding:2px;background:white;position:relative;overflow:hidden}
+.week-day{min-height:62px;min-width:0;border:0.5px solid #D3D1C7;border-radius:5px;padding:2px;background:white;position:relative;overflow:hidden}
 .week-day.today{border:1.5px solid #1D9E75}
 .week-day.drag-over{background:#F1EFE8;border:1.5px dashed #1D9E75}
 .week-day-name{font-size:8px;color:#888780;font-weight:500;text-align:center;margin-bottom:1px}
@@ -181,7 +181,7 @@ h1{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:#
   <div class="cal-day-name">Dom</div>
 </div>
 
-<!-- Mobile week view -->
+<!-- Mobile two-week view -->
 <div class="week-view" id="week-view">
   <div class="week-nav">
     <button class="nav-btn" onclick="prevWeek()">‹</button>
@@ -189,6 +189,7 @@ h1{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:#
     <button class="nav-btn" onclick="nextWeek()">›</button>
   </div>
   <div class="week-grid" id="week-grid"></div>
+  <div class="week-grid" id="week-grid-2" style="margin-top:6px"></div>
 </div>
 
 <div class="unscheduled-panel">
@@ -279,6 +280,18 @@ let modalP=1, modalStatus='none', modalOwner=null;
 let nextId=108;
 
 /* ---- GITHUB PERSISTENCE ---- */
+function utf8ToBase64(str){
+  const bytes = new TextEncoder().encode(str);
+  let binary = '';
+  for(let i=0;i<bytes.length;i++) binary += String.fromCharCode(bytes[i]);
+  return btoa(binary);
+}
+function base64ToUtf8(b64){
+  const binary = atob(b64);
+  const bytes = new Uint8Array(binary.length);
+  for(let i=0;i<binary.length;i++) bytes[i] = binary.charCodeAt(i);
+  return new TextDecoder('utf-8').decode(bytes);
+}
 const GH_OWNER = 'RaulSarrion';
 const GH_REPO  = 'ara-studio-planificador';
 const GH_FILE  = 'data.json';
@@ -337,7 +350,7 @@ async function loadFromGitHub(){
     if(!res.ok) throw new Error('HTTP ' + res.status);
     const json = await res.json();
     ghFileSha = json.sha;
-    const decoded = JSON.parse(decodeURIComponent(escape(atob(json.content.replace(/\n/g,'')))));
+    const decoded = JSON.parse(base64ToUtf8(json.content.replace(/\n/g,'')));
     state.tasks = decoded.tasks;
     state.viewYear = decoded.viewYear || 2026;
     state.viewMonth = decoded.viewMonth || 5;
@@ -361,7 +374,7 @@ async function saveToGitHub(){
     nextId,
     tasks: state.tasks
   };
-  const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+  const content = utf8ToBase64(JSON.stringify(data, null, 2));
 
   // If we don't have a SHA yet, fetch it first
   if(!ghFileSha) await fetchCurrentSha(token);
@@ -581,24 +594,12 @@ function getWeekStart(offset){
   return d;
 }
 
-function prevWeek(){ weekOffset--; renderWeek(); }
-function nextWeek(){ weekOffset++; renderWeek(); }
+function prevWeek(){ weekOffset -= 2; renderWeek(); }
+function nextWeek(){ weekOffset += 2; renderWeek(); }
 
-function renderWeek(){
-  const grid = document.getElementById('week-grid');
-  const label = document.getElementById('week-label');
-  grid.innerHTML = '';
-
-  const weekStart = getWeekStart(weekOffset);
-  const weekEnd = new Date(weekStart); weekEnd.setDate(weekEnd.getDate()+6);
-
-  const months = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-  const s = weekStart, e = weekEnd;
-  if(s.getMonth()===e.getMonth()){
-    label.textContent = `${s.getDate()}–${e.getDate()} ${months[s.getMonth()]} ${s.getFullYear()}`;
-  } else {
-    label.textContent = `${s.getDate()} ${months[s.getMonth()]} – ${e.getDate()} ${months[e.getMonth()]}`;
-  }
+function renderOneWeekGrid(gridEl,offset){
+  gridEl.innerHTML = '';
+  const weekStart = getWeekStart(offset);
 
   const tasksByDate = {};
   state.tasks.forEach(t=>{ if(t.date){ if(!tasksByDate[t.date]) tasksByDate[t.date]=[]; tasksByDate[t.date].push(t); }});
@@ -627,7 +628,26 @@ function renderWeek(){
     if(tasksByDate[key]){
       tasksByDate[key].sort((a,b)=>a.p-b.p).forEach(t=>cell.appendChild(makeChip(t)));
     }
-    grid.appendChild(cell);
+    gridEl.appendChild(cell);
+  }
+  return weekStart;
+}
+
+function renderWeek(){
+  const label = document.getElementById('week-label');
+  const grid1 = document.getElementById('week-grid');
+  const grid2 = document.getElementById('week-grid-2');
+
+  const week1Start = renderOneWeekGrid(grid1, weekOffset);
+  const week2Start = renderOneWeekGrid(grid2, weekOffset+1);
+  const week2End = new Date(week2Start); week2End.setDate(week2End.getDate()+6);
+
+  const months = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  const s = week1Start, e = week2End;
+  if(s.getMonth()===e.getMonth()){
+    label.textContent = `${s.getDate()}–${e.getDate()} ${months[s.getMonth()]} ${s.getFullYear()}`;
+  } else {
+    label.textContent = `${s.getDate()} ${months[s.getMonth()]} – ${e.getDate()} ${months[e.getMonth()]}`;
   }
 }
 

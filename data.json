@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "savedAt": "2026-06-17T13:27:15.298Z",
+  "savedAt": "2026-06-17T12:06:21.372Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 108,
   "tasks": [
     {
       "id": "t1",
-      "text": "Logo (colores, tipografÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­a, formatos)",
+      "text": "Logo (colores, tipografía, formatos)",
       "p": 1,
       "date": "2026-06-14",
       "status": "done",
@@ -15,7 +15,7 @@
     },
     {
       "id": "t2",
-      "text": "Alta autÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³nomo",
+      "text": "Alta autónomo",
       "p": 1,
       "date": "2026-06-14",
       "status": "done",
@@ -39,7 +39,7 @@
     },
     {
       "id": "t5",
-      "text": "Agenda albaÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ±il",
+      "text": "Agenda albañil",
       "p": 1,
       "date": "2026-06-16",
       "status": "none",
@@ -47,7 +47,7 @@
     },
     {
       "id": "t6",
-      "text": "CrÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©dito",
+      "text": "Crédito",
       "p": 1,
       "date": "2026-06-19",
       "status": "none",
@@ -95,7 +95,7 @@
     },
     {
       "id": "t12",
-      "text": "DiseÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ±o web",
+      "text": "Diseño web",
       "p": 3,
       "date": "2026-06-16",
       "status": "none",
@@ -127,7 +127,7 @@
     },
     {
       "id": "t16",
-      "text": "Proveedores mÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡quinas",
+      "text": "Proveedores máquinas",
       "p": 3,
       "date": "2026-06-22",
       "status": "none",
@@ -135,7 +135,7 @@
     },
     {
       "id": "t17",
-      "text": "CartelerÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ­a",
+      "text": "Cartelería",
       "p": 3,
       "date": "2026-06-23",
       "status": "none",
@@ -159,7 +159,7 @@
     },
     {
       "id": "t20",
-      "text": "Vinilos cristales y mÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡quinas",
+      "text": "Vinilos cristales y máquinas",
       "p": 3,
       "date": "2026-06-25",
       "status": "none",
@@ -167,7 +167,7 @@
     },
     {
       "id": "t21",
-      "text": "RecepciÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³n",
+      "text": "Recepción",
       "p": 3,
       "date": "2026-06-21",
       "status": "none",
@@ -183,7 +183,7 @@
     },
     {
       "id": "t23",
-      "text": "MÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¡quina cafÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©",
+      "text": "Máquina café",
       "p": 4,
       "date": "2026-07-11",
       "status": "none",
@@ -223,7 +223,7 @@
     },
     {
       "id": "t28",
-      "text": "CÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³moda",
+      "text": "Cómoda",
       "p": 4,
       "date": "2026-07-11",
       "status": "none",
@@ -239,7 +239,7 @@
     },
     {
       "id": "u100",
-      "text": "Seguro para obra o lo tiene el albaÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ±il?",
+      "text": "Seguro para obra o lo tiene el albañil?",
       "p": 1,
       "date": "2026-06-16",
       "status": "none",
@@ -247,7 +247,7 @@
     },
     {
       "id": "u101",
-      "text": "Analizar Software GestiÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³n",
+      "text": "Analizar Software Gestión",
       "p": 4,
       "date": null,
       "status": "none",
@@ -263,7 +263,7 @@
     },
     {
       "id": "u103",
-      "text": "PlanificaciÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³n EconÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³mica",
+      "text": "Planificación Económica",
       "p": 1,
       "date": "2026-06-15",
       "status": "none",
@@ -287,7 +287,7 @@
     },
     {
       "id": "u106",
-      "text": "ModificaciÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³n 036 - Cuando abramos",
+      "text": "Modificación 036 - Cuando abramos",
       "p": 4,
       "date": "2026-08-15",
       "status": "none",
@@ -295,7 +295,7 @@
     },
     {
       "id": "u107",
-      "text": "RecepciÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ³n Planos Arquitecta",
+      "text": "Recepción Planos Arquitecta",
       "p": 3,
       "date": "2026-06-24",
       "status": "none",
