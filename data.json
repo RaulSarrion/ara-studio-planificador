@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "savedAt": "2026-06-21T18:20:03.000Z",
+  "savedAt": "2026-06-21T18:20:28.979Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 110,
@@ -42,7 +42,7 @@
       "text": "Agenda albañil",
       "p": 1,
       "date": "2026-06-16",
-      "status": "none",
+      "status": "done",
       "owner": null
     },
     {
