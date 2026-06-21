@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "savedAt": "2026-06-21T18:20:28.979Z",
+  "savedAt": "2026-06-21T18:20:37.052Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 110,
@@ -114,7 +114,7 @@
       "text": "Abrir redes sociales",
       "p": 3,
       "date": "2026-06-15",
-      "status": "progress",
+      "status": "done",
       "owner": "carlota"
     },
     {
