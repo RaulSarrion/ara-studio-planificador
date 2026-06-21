@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "savedAt": "2026-06-21T18:21:09.150Z",
+  "savedAt": "2026-06-21T18:22:11.061Z",
   "viewYear": 2026,
   "viewMonth": 5,
-  "nextId": 110,
+  "nextId": 111,
   "tasks": [
     {
       "id": "t1",
@@ -316,6 +316,14 @@
       "date": "2026-06-21",
       "status": "none",
       "owner": null
+    },
+    {
+      "id": "u110",
+      "text": "Confirmar pilatus compra y gestion dias de entrega",
+      "p": 1,
+      "date": null,
+      "status": "none",
+      "owner": "ambos"
     }
   ]
 }
