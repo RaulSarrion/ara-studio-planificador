@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "savedAt": "2026-06-21T18:20:40.521Z",
+  "savedAt": "2026-06-21T18:20:55.985Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 110,
@@ -202,7 +202,7 @@
       "text": "Decidir horarios",
       "p": 4,
       "date": "2026-06-21",
-      "status": "none",
+      "status": "done",
       "owner": null
     },
     {
