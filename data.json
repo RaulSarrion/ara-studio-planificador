@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "savedAt": "2026-06-21T18:20:37.052Z",
+  "savedAt": "2026-06-21T18:20:40.521Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 110,
@@ -74,7 +74,7 @@
       "text": "Comprar dominio web",
       "p": 2,
       "date": "2026-06-20",
-      "status": "none",
+      "status": "done",
       "owner": null
     },
     {
