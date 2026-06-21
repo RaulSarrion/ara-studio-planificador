@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "savedAt": "2026-06-21T18:20:55.985Z",
+  "savedAt": "2026-06-21T18:21:09.150Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 110,
@@ -130,7 +130,7 @@
       "text": "Proveedores máquinas",
       "p": 3,
       "date": "2026-06-22",
-      "status": "none",
+      "status": "done",
       "owner": null
     },
     {
