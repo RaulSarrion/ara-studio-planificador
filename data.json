@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "savedAt": "2026-06-21T18:19:49.367Z",
+  "savedAt": "2026-06-21T18:20:03.000Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 110,
@@ -313,7 +313,7 @@
       "id": "u109",
       "text": "Lista y presupuesto de materiales",
       "p": 1,
-      "date": null,
+      "date": "2026-06-21",
       "status": "none",
       "owner": null
     }
