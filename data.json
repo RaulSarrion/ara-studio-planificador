@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "savedAt": "2026-06-20T11:49:21.757Z",
+  "savedAt": "2026-06-21T18:19:15.565Z",
   "viewYear": 2026,
   "viewMonth": 5,
-  "nextId": 109,
+  "nextId": 110,
   "tasks": [
     {
       "id": "t1",
@@ -308,6 +308,14 @@
       "date": "2026-06-25",
       "status": "none",
       "owner": "carlota"
+    },
+    {
+      "id": "u109",
+      "text": "Lista y presupuesto de materiales",
+      "p": 1,
+      "date": null,
+      "status": "none",
+      "owner": null
     }
   ]
 }
