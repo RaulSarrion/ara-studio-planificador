@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "savedAt": "2026-06-21T18:22:37.638Z",
+  "savedAt": "2026-06-22T15:42:53.826Z",
   "viewYear": 2026,
   "viewMonth": 5,
-  "nextId": 111,
+  "nextId": 112,
   "tasks": [
     {
       "id": "t1",
@@ -322,6 +322,14 @@
       "text": "Confirmar pilatus compra y gestion dias de entrega",
       "p": 1,
       "date": "2026-06-24",
+      "status": "none",
+      "owner": "ambos"
+    },
+    {
+      "id": "u111",
+      "text": "Revisar comunidad de bienes",
+      "p": 1,
+      "date": null,
       "status": "none",
       "owner": "ambos"
     }
