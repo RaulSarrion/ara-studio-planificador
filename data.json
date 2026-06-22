@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "savedAt": "2026-06-22T16:47:44.449Z",
+  "savedAt": "2026-06-22T16:48:34.126Z",
   "viewYear": 2026,
   "viewMonth": 5,
-  "nextId": 115,
+  "nextId": 116,
   "tasks": [
     {
       "id": "t1",
@@ -354,6 +354,14 @@
       "text": "Escribir correo información plaza fundadora",
       "p": 1,
       "date": "2026-06-23",
+      "status": "none",
+      "owner": "carlota"
+    },
+    {
+      "id": "u115",
+      "text": "Numero de telefono ARA",
+      "p": 1,
+      "date": null,
       "status": "none",
       "owner": "carlota"
     }
