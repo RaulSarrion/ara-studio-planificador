@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "savedAt": "2026-06-22T15:43:59.001Z",
+  "savedAt": "2026-06-22T15:44:55.557Z",
   "viewYear": 2026,
   "viewMonth": 5,
-  "nextId": 113,
+  "nextId": 114,
   "tasks": [
     {
       "id": "t1",
@@ -340,6 +340,14 @@
       "date": "2026-06-22",
       "status": "none",
       "owner": "carlota"
+    },
+    {
+      "id": "u113",
+      "text": "Terminar página web (colores, traduccion y vista movil)",
+      "p": 1,
+      "date": null,
+      "status": "none",
+      "owner": "ambos"
     }
   ]
 }
