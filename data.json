@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "savedAt": "2026-06-22T15:43:21.742Z",
+  "savedAt": "2026-06-22T15:43:52.474Z",
   "viewYear": 2026,
   "viewMonth": 5,
-  "nextId": 112,
+  "nextId": 113,
   "tasks": [
     {
       "id": "t1",
@@ -332,6 +332,14 @@
       "date": "2026-06-22",
       "status": "none",
       "owner": "ambos"
+    },
+    {
+      "id": "u112",
+      "text": "Subir post logo",
+      "p": 1,
+      "date": null,
+      "status": "none",
+      "owner": "carlota"
     }
   ]
 }
