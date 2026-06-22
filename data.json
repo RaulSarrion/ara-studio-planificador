@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "savedAt": "2026-06-22T16:48:49.479Z",
+  "savedAt": "2026-06-22T16:48:52.937Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 116,
@@ -361,7 +361,7 @@
       "id": "u115",
       "text": "Numero de telefono ARA",
       "p": 3,
-      "date": null,
+      "date": "2026-06-23",
       "status": "none",
       "owner": "carlota"
     }
