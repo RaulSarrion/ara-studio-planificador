@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "savedAt": "2026-06-22T16:47:42.144Z",
+  "savedAt": "2026-06-22T16:47:44.449Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 115,
@@ -353,7 +353,7 @@
       "id": "u114",
       "text": "Escribir correo información plaza fundadora",
       "p": 1,
-      "date": null,
+      "date": "2026-06-23",
       "status": "none",
       "owner": "carlota"
     }
