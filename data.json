@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "savedAt": "2026-06-24T11:03:21.223Z",
+  "savedAt": "2026-06-24T11:03:37.405Z",
   "viewYear": 2026,
   "viewMonth": 5,
-  "nextId": 118,
+  "nextId": 119,
   "tasks": [
     {
       "id": "t1",
@@ -380,6 +380,14 @@
       "date": null,
       "status": "none",
       "owner": "carlota"
+    },
+    {
+      "id": "u118",
+      "text": "Hacer cuenta común",
+      "p": 1,
+      "date": null,
+      "status": "none",
+      "owner": "ambos"
     }
   ]
 }
