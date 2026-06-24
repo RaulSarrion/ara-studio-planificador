@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "savedAt": "2026-06-24T11:03:47.773Z",
+  "savedAt": "2026-06-24T11:03:49.462Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 119,
@@ -385,7 +385,7 @@
       "id": "u118",
       "text": "Hacer cuenta común",
       "p": 1,
-      "date": null,
+      "date": "2026-06-23",
       "status": "none",
       "owner": "ambos"
     }
