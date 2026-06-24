@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "savedAt": "2026-06-24T11:03:56.765Z",
+  "savedAt": "2026-06-24T11:03:59.904Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 119,
@@ -356,14 +356,6 @@
       "date": "2026-06-23",
       "status": "none",
       "owner": "carlota"
-    },
-    {
-      "id": "u116",
-      "text": "Confirmar máquinas",
-      "p": 3,
-      "date": null,
-      "status": "none",
-      "owner": "raul"
     },
     {
       "id": "u117",
