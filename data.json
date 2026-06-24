@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "savedAt": "2026-06-24T11:03:04.663Z",
+  "savedAt": "2026-06-24T11:03:21.223Z",
   "viewYear": 2026,
   "viewMonth": 5,
-  "nextId": 117,
+  "nextId": 118,
   "tasks": [
     {
       "id": "t1",
@@ -372,6 +372,14 @@
       "date": null,
       "status": "none",
       "owner": "raul"
+    },
+    {
+      "id": "u117",
+      "text": "Revisar plan económico",
+      "p": 3,
+      "date": null,
+      "status": "none",
+      "owner": "carlota"
     }
   ]
 }
