@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "savedAt": "2026-06-24T11:03:59.904Z",
+  "savedAt": "2026-06-24T11:04:08.483Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 119,
@@ -361,7 +361,7 @@
       "id": "u117",
       "text": "Revisar plan económico",
       "p": 3,
-      "date": null,
+      "date": "2026-06-23",
       "status": "none",
       "owner": "carlota"
     },
