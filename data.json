@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "savedAt": "2026-06-26T22:55:43.266Z",
+  "savedAt": "2026-06-29T08:57:27.096Z",
   "viewYear": 2026,
   "viewMonth": 5,
-  "nextId": 119,
+  "nextId": 120,
   "tasks": [
     {
       "id": "t1",
@@ -370,6 +370,14 @@
       "text": "Hacer cuenta común",
       "p": 1,
       "date": "2026-06-23",
+      "status": "none",
+      "owner": "ambos"
+    },
+    {
+      "id": "u119",
+      "text": "Copia llaves",
+      "p": 1,
+      "date": null,
       "status": "none",
       "owner": "ambos"
     }
