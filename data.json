@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "savedAt": "2026-07-11T15:36:59.295Z",
+  "savedAt": "2026-07-11T15:37:20.729Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 120,
@@ -266,8 +266,8 @@
       "text": "Escanear Contrato Arrendamiento Local",
       "p": 4,
       "date": "2026-07-09",
-      "status": "none",
-      "owner": null
+      "status": "done",
+      "owner": "ambos"
     },
     {
       "id": "u105",
