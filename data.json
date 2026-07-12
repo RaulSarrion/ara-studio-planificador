@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "savedAt": "2026-07-12T15:42:29.679Z",
+  "savedAt": "2026-07-12T15:42:32.542Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 121,
@@ -330,7 +330,7 @@
       "text": "Terminar página web (colores, traduccion y vista movil)",
       "p": 3,
       "date": "2026-06-22",
-      "status": "none",
+      "status": "done",
       "owner": "ambos"
     },
     {
