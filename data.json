@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "savedAt": "2026-07-12T15:41:46.861Z",
+  "savedAt": "2026-07-12T15:42:01.159Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 121,
@@ -258,7 +258,7 @@
       "text": "Planificación Económica",
       "p": 1,
       "date": "2026-06-15",
-      "status": "none",
+      "status": "done",
       "owner": "raul"
     },
     {
