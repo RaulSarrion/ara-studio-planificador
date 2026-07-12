@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "savedAt": "2026-07-12T15:41:42.753Z",
+  "savedAt": "2026-07-12T15:41:46.861Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 121,
@@ -385,7 +385,7 @@
       "id": "u120",
       "text": "Llamar Leroy Merlin",
       "p": 1,
-      "date": null,
+      "date": "2026-07-13",
       "status": "none",
       "owner": "carlota"
     }
