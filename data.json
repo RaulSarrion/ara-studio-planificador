@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "savedAt": "2026-07-12T15:42:01.159Z",
+  "savedAt": "2026-07-12T15:42:06.650Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 121,
@@ -82,7 +82,7 @@
       "text": "Actualizar planos",
       "p": 2,
       "date": "2026-06-15",
-      "status": "none",
+      "status": "done",
       "owner": "carlota"
     },
     {
