@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "savedAt": "2026-07-12T15:42:16.917Z",
+  "savedAt": "2026-07-12T15:42:21.565Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 121,
@@ -154,14 +154,6 @@
       "text": "Vinilos cristales y máquinas",
       "p": 3,
       "date": "2026-06-25",
-      "status": "none",
-      "owner": null
-    },
-    {
-      "id": "t21",
-      "text": "Recepción",
-      "p": 3,
-      "date": "2026-06-21",
       "status": "none",
       "owner": null
     },
