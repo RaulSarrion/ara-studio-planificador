@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "savedAt": "2026-07-12T15:42:21.565Z",
+  "savedAt": "2026-07-12T15:42:29.679Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 121,
@@ -322,7 +322,7 @@
       "text": "Subir post logo",
       "p": 1,
       "date": "2026-06-22",
-      "status": "none",
+      "status": "done",
       "owner": "carlota"
     },
     {
