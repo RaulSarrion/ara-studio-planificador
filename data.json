@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "savedAt": "2026-07-12T15:42:06.650Z",
+  "savedAt": "2026-07-12T15:42:10.027Z",
   "viewYear": 2026,
   "viewMonth": 5,
   "nextId": 121,
@@ -98,7 +98,7 @@
       "text": "Diseño web",
       "p": 3,
       "date": "2026-06-16",
-      "status": "none",
+      "status": "done",
       "owner": "carlota"
     },
     {
